@@ -13,7 +13,7 @@ all : $(EXE)
 $(EXE) : output_msg $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(EXE)
 
-main.o : main.cpp
+main.o : main.cpp algorithms.hpp graph.h graph.cpp
 	$(CXX) $(CXXFLAGS) main.cpp
 
 test : output_msg tests.o
