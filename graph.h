@@ -20,6 +20,7 @@ class Graph {
 
 
     std::vector<std::vector<int>> adjacencyMatrix;
+    std::vector<Vertex> vertexList;
 
 
     private:
