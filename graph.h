@@ -3,10 +3,16 @@
 #include <map>
 #include <string>
 #include <list>
+#include <unordered_map>
+
+
+typedef std::string Vertex;
+
 
 class Graph {
 
     public:
+        /*
         struct Vertex {
 
             int degree;
@@ -26,6 +32,7 @@ class Graph {
                 return false;
             }
         };
+        */
 
         struct Edge {
 
@@ -51,7 +58,7 @@ class Graph {
 
         bool areAdjacent(Vertex v1, Vertex v2);
 
-        std::map<Vertex, std::list<Edge *>> adjacencyList;
+        std::unordered_map<Vertex, std::vector<Edge *>()> adjacencyList();
 
         std::vector<std::vector<int>> adjacencyMatrix;
 
