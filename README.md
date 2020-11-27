@@ -38,8 +38,10 @@
   * Page-Rank Algorithm
 
 * ### Graph Class
-  * Adjacency Matrix Graph Implementation
-  * Edge Object Inner Class Implementation
-  * Vertex String Type Defintion Implementation
+  * Adjacency-Matrix Graph Implementation
+  * String Type-Definition Vertex Implementation
+ 
+* ### Edge Class
+  * Graph-Edge Object Implementation
 
 
