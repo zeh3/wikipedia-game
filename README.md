@@ -9,37 +9,37 @@
 * [Project Structure](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#project-structure)
 
 ## Documentation
-### Goals
-Link to Goals Documentation can be found [Here](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2/blob/master/documentation/GOALS.md)
+* ### Goals
+  * Link to Goals Documentation can be found [Here](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2/blob/master/documentation/GOALS.md)
 
-### Development
-Link to Development Documentation can be found [Here](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2/blob/master/documentation/DEVELOPMENT.md)
+* ### Development
+  * Link to Development Documentation can be found [Here](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2/blob/master/documentation/DEVELOPMENT.md)
 
-### Team Contracts
-Link to Team Contracts can be found [Here](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2/tree/master/documentation/Contracts)
+* ### Team Contracts
+  * Link to Team Contracts can be found [Here](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2/tree/master/documentation/Contracts)
 
 ## Installation
-Instructions and Commands Go Here :)
+* Instructions and Commands Go Here :)
 
 ## Features
-Features and Capabilities Go Here :)
+* Features and Capabilities Go Here :)
 
 ## How to Build
-Instructions and Commands Go Here :)
+* Instructions and Commands Go Here :)
 
 ## Testing
-Instructions and Commands Go here :)
+* Instructions and Commands Go here :)
 
 ## Project Structure
-### Algorithms Class
+* ### Algorithms Class
 
-- Dijkstra's Shortest-Path Algorithm
-- Graph Breadth-First Search Algorithm
-- Page-Rank Algorithm
+  * Dijkstra's Shortest-Path Algorithm
+  * Graph Breadth-First Search Algorithm
+  * Page-Rank Algorithm
 
-### Graph Class
-- Adjacency Matrix Graph Implementation
-- Edge Object Inner Class Implementation
-- Vertex String Type Defintion Implementation
+* ### Graph Class
+  * Adjacency Matrix Graph Implementation
+  * Edge Object Inner Class Implementation
+  * Vertex String Type Defintion Implementation
 
 
