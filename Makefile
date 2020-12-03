@@ -5,7 +5,7 @@ CXX = clang++
 LD = clang++
 
 WARNINGS = -pedantic -Wall -Werror -Wfatal-errors -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function
-CXXFLAGS = -std=c++1y -stdlib=libc++ -O0 $(WARNINGS) -g -c -v
+CXXFLAGS = -std=c++1y -stdlib=libc++ -O0 $(WARNINGS) -g -c
 LDFLAGS = -std=c++1y -stdlib=libc++ -lc++abi
 
 all : $(EXE)
