@@ -46,9 +46,9 @@ class Graph {
 
     // public:
     //not default constructor. Here until we figure out what to pass in
-        Graph() {};
+        Graph();
 
-        ~Graph() {};
+        ~Graph();
         
         void insertVertex(Vertex v);
 
@@ -58,7 +58,7 @@ class Graph {
 
         bool areAdjacent(Vertex v1, Vertex v2);
 
-        std::unordered_map<Vertex, std::vector<Edge *>()> adjacencyList();
+        std::unordered_map<Vertex, std::vector<Edge *>> adjacencyList;
 
         std::vector<std::vector<int>> adjacencyMatrix;
 
