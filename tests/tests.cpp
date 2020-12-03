@@ -114,6 +114,32 @@ TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][ve
 }
 
 TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
+    ifstream file("connected_graph.JPG");
+    Graph graph(file);
+    // verify that everything is adjacent to center vertex
+    vector<string> others = {"A", "B", "C", "D", "F", "G"};
+    for (auto label : others) {
+        REQUIRE(graph.areAdjacent("E", label));
+    }
+    auto i = graph.incidentEdges("E");
+    vector<string> destinations;
+    for (Edge* e : i) {
+        REQUIRE(*(e->source) == "E");
+        destinations.push_back(*(e->destination));
+    }
+    for (auto label: others) {
+        REQUIRE(std::count(destinations.begin(), destinations.end(), label) == 1);
+    }
+    // check (some of) the outer vertexes
+    REQUIRE(graph.areAdjacent("F", "A"));
+    REQUIRE(graph.areAdjacent("G", "C"));
+    REQUIRE(!graph.areAdjacent("A", "C")); 
+    REQUIRE(!graph.areAdjacent("D", "C"));
+
+    REQUIRE(graph.incidentEdges("C").size() == 1);
+    REQUIRE(graph.incidentEdges("B").size() == 1);
+}
+TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
     // verify that everything is adjacent to center vertex
@@ -254,7 +280,7 @@ TEST_CASE("shortest path of length 1", "[shortestPath]") {
 * The graph for these test cases can be found in connected_graph.JPG
 */
 
-TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][vertexList]") {
+TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][vertexList][connectedGraph]") {
     ifstream file("connected_graph.JPG");
     Graph graph(file);
     auto v = graph.vertexList;
