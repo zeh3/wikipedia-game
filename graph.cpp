@@ -4,6 +4,10 @@ Graph::Graph() {
 
 }
 
+Graph::Graph(std::ifstream& fileStream) {
+    //todo: implement
+}
+
 Graph::~Graph() {
     adjacencyList.clear();
     adjacencyMatrix.clear();
