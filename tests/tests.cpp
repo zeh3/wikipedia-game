@@ -7,6 +7,7 @@
 using std::string;
 using Edge = Graph::Edge;
 using std::vector;
+using std::ifstream;
 
 typedef std::string Vertex;
 
@@ -90,4 +91,21 @@ TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][i
     //everything else lol
     REQUIRE(mat[AIndex][CIndex] == 0);
     REQUIRE(mat[CIndex][AIndex] == 0);
+}
+
+/*
+* The graph for these test cases can be found in connected_graph.JPG
+*/
+
+TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][vertexList]") {
+    ifstream file("connected_graph.JPG");
+    Graph graph(file);
+    auto v = graph.vertexList;
+    vector<string> actualLabels = {"A", "B", "C", "D", "E", "F", "G"};
+
+    REQUIRE(v.size() == actualLabels.size());
+    
+    for (Vertex label : actualLabels) {
+        REQUIRE(std::count(v.begin(), v.end(), label) == 1);
+    }
 }
