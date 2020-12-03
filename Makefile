@@ -1,11 +1,11 @@
 EXE = main
-OBJS = main.o
+OBJS = main.o graph.o
 
 CXX = clang++
 LD = clang++
 
 WARNINGS = -pedantic -Wall -Werror -Wfatal-errors -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function
-CXXFLAGS = -std=c++1y -stdlib=libc++ -O0 $(WARNINGS) -g -c
+CXXFLAGS = -std=c++1y -stdlib=libc++ -O0 $(WARNINGS) -g -c -v
 LDFLAGS = -std=c++1y -stdlib=libc++ -lc++abi
 
 all : $(EXE)
@@ -13,14 +13,17 @@ all : $(EXE)
 $(EXE) : output_msg $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(EXE)
 
-main.o : main.cpp algorithms.hpp graph.h graph.cpp
+main.o : main.cpp algorithms.hpp
 	$(CXX) $(CXXFLAGS) main.cpp
 
-test : output_msg tests.o
-	$(LD) tests.o $(LDFLAGS) -o test
+test : output_msg tests.o graph.o
+	$(LD) tests.o graph.o $(LDFLAGS) -o test
 
 tests.o : tests/tests.cpp tests/catch/catch.hpp
 	$(CXX) $(CXXFLAGS) tests/tests.cpp
+
+graph.o: graph.h graph.cpp
+	$(CXX) $(CXXFLAGS) graph.cpp
 
 .PHONY : output_msg
 

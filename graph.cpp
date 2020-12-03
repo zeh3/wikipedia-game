@@ -44,10 +44,11 @@ void Graph::insertEdge(Vertex v1, Vertex v2, Edge theEdge) {
 
 std::vector<Graph::Edge*> Graph::incidentEdges(Vertex v) {
     std::vector<Graph::Edge*> incidentEdges;
-    incidentEdges.push_back(&Graph::Edge());
+    //incidentEdges.push_back(&Graph::Edge());
     return incidentEdges;
 }
 
 bool Graph::areAdjacent(Vertex v1, Vertex v2) {
-
+    //todo: complete
+    return true;
 }
