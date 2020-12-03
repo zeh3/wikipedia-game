@@ -4,6 +4,7 @@
 #include <string>
 #include <list>
 #include <unordered_map>
+#include <fstream>
 
 
 typedef std::string Vertex;
@@ -36,17 +37,16 @@ class Graph {
 
         struct Edge {
 
-            Vertex * a;
-            Vertex * b;
-
-            //0 if a to b 1 if b to a?
-            int direction;
+            Vertex* source;
+            Vertex* destination;
 
         };
 
     // public:
     //not default constructor. Here until we figure out what to pass in
         Graph();
+
+        Graph(std::ifstream& fileStream);
 
         ~Graph();
         
