@@ -37,8 +37,8 @@ class Graph {
 
         struct Edge {
 
-            Vertex* source;
-            Vertex* destination;
+            Vertex* source = NULL;
+            Vertex* destination = NULL;
 
         };
 
@@ -60,7 +60,7 @@ class Graph {
 
         std::unordered_map<Vertex, std::vector<Edge *>> adjacencyList;
 
-        std::vector<std::vector<int>> adjacencyMatrix;
+        std::vector<std::vector<double>> adjacencyMatrix;
 
         std::vector<Vertex> vertexList;
 
