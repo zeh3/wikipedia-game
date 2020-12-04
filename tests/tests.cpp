@@ -13,7 +13,6 @@ using std::cout;
 using std::endl;
 using boost::numeric::ublas::matrix;
 
-
 typedef std::string Vertex;
 
 /*
@@ -77,6 +76,7 @@ TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][i
      REQUIRE(mat.size1() == 3);
      REQUIRE(mat.size2() == 3);
 
+
      auto v = graph.vertexList;
      size_t AIndex = std::find(v.begin(), v.end(), "A") - v.begin();
      auto BIndex = std::find(v.begin(), v.end(), "B") - v.begin();
@@ -103,6 +103,7 @@ TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][i
 TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][vertexList][connectedGraph]") {
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
+    cout << "done with graph" << endl;
     auto v = graph.vertexList;
     vector<string> actualLabels = {"A", "B", "C", "D", "E", "F", "G"};
 
@@ -114,7 +115,7 @@ TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][ve
 }
 
 TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
-    ifstream file("connected_graph.JPG");
+    ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
     // verify that everything is adjacent to center vertex
     vector<string> others = {"A", "B", "C", "D", "F", "G"};
@@ -124,8 +125,8 @@ TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][i
     auto i = graph.incidentEdges("E");
     vector<string> destinations;
     for (Edge* e : i) {
-        REQUIRE(*(e->source) == "E");
-        destinations.push_back(*(e->destination));
+        REQUIRE((e->source) == "E");
+        destinations.push_back((e->destination));
     }
     for (auto label: others) {
         REQUIRE(std::count(destinations.begin(), destinations.end(), label) == 1);
@@ -139,6 +140,7 @@ TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][i
     REQUIRE(graph.incidentEdges("C").size() == 1);
     REQUIRE(graph.incidentEdges("B").size() == 1);
 }
+
 TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
