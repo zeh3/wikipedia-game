@@ -8,6 +8,8 @@ using std::string;
 using Edge = Graph::Edge;
 using std::vector;
 using std::ifstream;
+using std::cout;
+using std::endl;
 
 typedef std::string Vertex;
 
@@ -27,6 +29,11 @@ Graph createSimpleGraph() {
     graph.insertEdge("B", "C");
 
     return graph;
+}
+
+// for checking adjacency matrix things
+int transformCoordinates(int x, int y, int size) {
+    return size * y + x;
 }
 
 TEST_CASE("simple graph insert vertices", "[defaultConstructor][insertVertex][vertexList][simpleGraph]") {
@@ -57,34 +64,30 @@ TEST_CASE("simple graph adjacencies correct", "[defaultConstructor][insertVertex
     REQUIRE(graph.areAdjacent("B", "C"));
     REQUIRE(!graph.areAdjacent("A", "C"));
 }
-
-// TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][insertEdge][simpleGraph][adjacencyMatrix][vertexList]") {
-//     Graph graph = createSimpleGraph();
-//     auto mat = graph.adjacencyMatrix;
-//     //size
-//     REQUIRE(mat.size() == 3);
-//     REQUIRE(mat[0].size() == 3);
-//     REQUIRE(mat[1].size() == 3);
-//     REQUIRE(mat[2].size() == 3);
-
-//     auto v = graph.vertexList;
-//     size_t AIndex = std::find(v.begin(), v.end(), "A") - v.begin();
-//     auto BIndex = std::find(v.begin(), v.end(), "B") - v.begin();
-//     auto CIndex = std::find(v.begin(), v.end(), "C") - v.begin();
-//     //nonzero values
     
-    REQUIRE(mat[AIndex][BIndex] == 1);
-    REQUIRE(mat[BIndex][CIndex] == 1);
-    //diaganols
-    REQUIRE(mat[AIndex][AIndex] == 0);
-    REQUIRE(mat[BIndex][BIndex] == 0);
-    REQUIRE(mat[CIndex][CIndex] == 0);
-    //reversed edges
-    REQUIRE(mat[BIndex][AIndex] == 0);
-    REQUIRE(mat[CIndex][BIndex] == 0);
-    //everything else lol
-    REQUIRE(mat[AIndex][CIndex] == 0);
-    REQUIRE(mat[CIndex][AIndex] == 0);
+TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][insertEdge][simpleGraph][adjacencyMatrix][vertexList]") {
+     Graph graph = createSimpleGraph();
+     double* mat = graph.adjacencyMatrix;
+     //size
+     REQUIRE(sizeof(mat) / sizeof(mat[0]) == 9);
+
+     auto v = graph.vertexList;
+     size_t AIndex = std::find(v.begin(), v.end(), "A") - v.begin();
+     auto BIndex = std::find(v.begin(), v.end(), "B") - v.begin();
+     auto CIndex = std::find(v.begin(), v.end(), "C") - v.begin();
+     //nonzero values
+     REQUIRE(mat[transformCoordinates(AIndex, BIndex, 3)] == 1);
+     REQUIRE(mat[transformCoordinates(BIndex, CIndex, 3)] == 1);
+     //diaganols
+     REQUIRE(mat[transformCoordinates(AIndex, AIndex, 3)] == 0);
+     REQUIRE(mat[transformCoordinates(BIndex, BIndex, 3)] == 0);
+     REQUIRE(mat[transformCoordinates(CIndex, CIndex, 3)] == 0);
+     //reversed edges
+     REQUIRE(mat[transformCoordinates(BIndex, AIndex, 3)] == 0);
+     REQUIRE(mat[transformCoordinates(CIndex, BIndex, 3)] == 0);
+     //everything else lol
+     REQUIRE(mat[transformCoordinates(AIndex, CIndex, 3)] == 0);
+     REQUIRE(mat[transformCoordinates(CIndex, AIndex, 3)] == 0);
 }
 
 /*
@@ -92,8 +95,9 @@ TEST_CASE("simple graph adjacencies correct", "[defaultConstructor][insertVertex
 */
 
 TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][vertexList][connectedGraph]") {
-    ifstream file("connected_graph.JPG");
+    ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
+    cout << "done with graph" << endl;
     auto v = graph.vertexList;
     vector<string> actualLabels = {"A", "B", "C", "D", "E", "F", "G"};
 
@@ -105,7 +109,7 @@ TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][ve
 }
 
 TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
-    ifstream file("connected_graph.JPG");
+    ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
     // verify that everything is adjacent to center vertex
     vector<string> others = {"A", "B", "C", "D", "F", "G"};
@@ -115,8 +119,8 @@ TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][i
     auto i = graph.incidentEdges("E");
     vector<string> destinations;
     for (Edge* e : i) {
-        REQUIRE(*(e->source) == "E");
-        destinations.push_back(*(e->destination));
+        REQUIRE((e->source) == "E");
+        destinations.push_back((e->destination));
     }
     for (auto label: others) {
         REQUIRE(std::count(destinations.begin(), destinations.end(), label) == 1);
@@ -130,16 +134,4 @@ TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][i
     REQUIRE(graph.incidentEdges("C").size() == 1);
     REQUIRE(graph.incidentEdges("B").size() == 1);
 }
-//     REQUIRE(mat[AIndex][BIndex] == 1);
-//     REQUIRE(mat[BIndex][CIndex] == 1);
-//     //diaganols
-//     REQUIRE(mat[AIndex][AIndex] == 0);
-//     REQUIRE(mat[BIndex][BIndex] == 0);
-//     REQUIRE(mat[CIndex][CIndex] == 0);
-//     //reversed edges
-//     REQUIRE(mat[BIndex][AIndex] == 0);
-//     REQUIRE(mat[CIndex][BIndex] == 0);
-//     //everything else lol
-//     REQUIRE(mat[AIndex][CIndex] == 0);
-//     REQUIRE(mat[CIndex][AIndex] == 0);
-// }
+
