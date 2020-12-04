@@ -21,6 +21,7 @@ void Graph::insertVertex(Vertex v) {
     //adding to vertex list
     vertexList.push_back(v);
 
+    //Could have problems later if we allow heavy mutation. refer to lab_ml's insertVertex()
     //adding to adjacency list
     //maybe need to do a clear here?
     adjacencyList[v] = std::vector<Edge *>();
@@ -47,13 +48,13 @@ void Graph::insertVertex(Vertex v) {
 }
 
 //complete
-void Graph::insertEdge(Vertex v1, Vertex v2, Edge theEdge) {
+void Graph::insertEdge(Vertex v1, Vertex v2) {
 
     //grab a reference to the vector in my unordered map
 
     std::vector<Edge*> & edges = adjacencyList[v1];
     //insert the edge to the vertex
-    edges.insert(edges.begin(), new Edge(theEdge.source, theEdge.destination));
+    edges.insert(edges.begin(), new Edge(v1, v2));
 
     // loop through vertices list and find indeces;
     int firstVertex = 0;
