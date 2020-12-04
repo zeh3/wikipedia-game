@@ -61,7 +61,7 @@ class Graph {
 
         std::unordered_map<Vertex, std::vector<Edge *>> adjacencyList;
 
-        std::vector<std::vector<double>> adjacencyMatrix;
+        double* adjacencyMatrix;
 
         std::vector<Vertex> vertexList;
 
