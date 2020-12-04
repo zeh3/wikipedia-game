@@ -37,9 +37,10 @@ class Graph {
 
         struct Edge {
 
-            Vertex* source = NULL;
-            Vertex* destination = NULL;
-
+            Vertex source;
+            Vertex destination;
+            Edge(){};
+            Edge(Vertex setSrc, Vertex setDest) : source(setSrc), destination(setDest){};
         };
 
     // public:
@@ -52,7 +53,7 @@ class Graph {
         
         void insertVertex(Vertex v);
 
-        void insertEdge(Vertex v1, Vertex v2, Edge theEdge);
+        void insertEdge(Vertex v1, Vertex v2);
 
         std::vector<Edge*> incidentEdges(Vertex v);
 
@@ -60,7 +61,7 @@ class Graph {
 
         std::unordered_map<Vertex, std::vector<Edge *>> adjacencyList;
 
-        std::vector<std::vector<double>> adjacencyMatrix;
+        double* adjacencyMatrix;
 
         std::vector<Vertex> vertexList;
 
