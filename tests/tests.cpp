@@ -21,15 +21,9 @@ Graph createSimpleGraph() {
     graph.insertVertex("B");
     graph.insertVertex("C");
 
-    Edge AToB("A", "B");
-    // AToB.source = new string("A");
-    // AToB.destination = new string("B");
-    graph.insertEdge("A", "B", AToB);
+    graph.insertEdge("A", "B");
 
-    Edge BToC("B", "C");
-    // BToC.source = new string("B");
-    // BToC.destination = new string("C");
-    graph.insertEdge("B", "C", BToC);
+    graph.insertEdge("B", "C");
 
     return graph;
 }

@@ -53,7 +53,7 @@ class Graph {
         
         void insertVertex(Vertex v);
 
-        void insertEdge(Vertex v1, Vertex v2, Edge theEdge);
+        void insertEdge(Vertex v1, Vertex v2);
 
         std::vector<Edge*> incidentEdges(Vertex v);
 
