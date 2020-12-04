@@ -22,15 +22,9 @@ Graph createSimpleGraph() {
     graph.insertVertex("B");
     graph.insertVertex("C");
 
-    Edge AToB;
-    AToB.source = new string("A");
-    AToB.destination = new string("B");
-    graph.insertEdge("A", "B", AToB);
+    graph.insertEdge("A", "B");
 
-    Edge BToC;
-    BToC.source = new string("B");
-    BToC.destination = new string("C");
-    graph.insertEdge("B", "C", BToC);
+    graph.insertEdge("B", "C");
 
     return graph;
 }
@@ -52,11 +46,11 @@ TEST_CASE("simple graph adjacencies correct", "[defaultConstructor][insertVertex
     REQUIRE(graph.incidentEdges("C").size() == 0);
 
     //check incident edges contents
-    REQUIRE(*graph.incidentEdges("A")[0]->source == "A");
-    REQUIRE(*graph.incidentEdges("A")[0]->destination == "B");
+    REQUIRE(graph.incidentEdges("A")[0]->source == "A");
+    REQUIRE(graph.incidentEdges("A")[0]->destination == "B");
 
-    REQUIRE(*graph.incidentEdges("B")[0]->source == "B");
-    REQUIRE(*graph.incidentEdges("B")[0]->destination == "C");
+    REQUIRE(graph.incidentEdges("B")[0]->source == "B");
+    REQUIRE(graph.incidentEdges("B")[0]->destination == "C");
 
     // check areAdjacent
     REQUIRE(graph.areAdjacent("A", "B"));
@@ -64,20 +58,20 @@ TEST_CASE("simple graph adjacencies correct", "[defaultConstructor][insertVertex
     REQUIRE(!graph.areAdjacent("A", "C"));
 }
 
-TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][insertEdge][simpleGraph][adjacencyMatrix][vertexList]") {
-    Graph graph = createSimpleGraph();
-    auto mat = graph.adjacencyMatrix;
-    //size
-    REQUIRE(mat.size() == 3);
-    REQUIRE(mat[0].size() == 3);
-    REQUIRE(mat[1].size() == 3);
-    REQUIRE(mat[2].size() == 3);
+// TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][insertEdge][simpleGraph][adjacencyMatrix][vertexList]") {
+//     Graph graph = createSimpleGraph();
+//     auto mat = graph.adjacencyMatrix;
+//     //size
+//     REQUIRE(mat.size() == 3);
+//     REQUIRE(mat[0].size() == 3);
+//     REQUIRE(mat[1].size() == 3);
+//     REQUIRE(mat[2].size() == 3);
 
-    auto v = graph.vertexList;
-    size_t AIndex = std::find(v.begin(), v.end(), "A") - v.begin();
-    auto BIndex = std::find(v.begin(), v.end(), "B") - v.begin();
-    auto CIndex = std::find(v.begin(), v.end(), "C") - v.begin();
-    //nonzero values
+//     auto v = graph.vertexList;
+//     size_t AIndex = std::find(v.begin(), v.end(), "A") - v.begin();
+//     auto BIndex = std::find(v.begin(), v.end(), "B") - v.begin();
+//     auto CIndex = std::find(v.begin(), v.end(), "C") - v.begin();
+//     //nonzero values
     
     REQUIRE(mat[AIndex][BIndex] == 1);
     REQUIRE(mat[BIndex][CIndex] == 1);
@@ -136,3 +130,16 @@ TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][i
     REQUIRE(graph.incidentEdges("C").size() == 1);
     REQUIRE(graph.incidentEdges("B").size() == 1);
 }
+//     REQUIRE(mat[AIndex][BIndex] == 1);
+//     REQUIRE(mat[BIndex][CIndex] == 1);
+//     //diaganols
+//     REQUIRE(mat[AIndex][AIndex] == 0);
+//     REQUIRE(mat[BIndex][BIndex] == 0);
+//     REQUIRE(mat[CIndex][CIndex] == 0);
+//     //reversed edges
+//     REQUIRE(mat[BIndex][AIndex] == 0);
+//     REQUIRE(mat[CIndex][BIndex] == 0);
+//     //everything else lol
+//     REQUIRE(mat[AIndex][CIndex] == 0);
+//     REQUIRE(mat[CIndex][AIndex] == 0);
+// }

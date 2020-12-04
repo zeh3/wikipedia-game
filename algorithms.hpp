@@ -2,7 +2,7 @@
 #include <queue>
 #include "graph.h"
 #include <string>
-typedef std::string Vertex;
+// typedef std::string Vertex;
 
 /* If we don't want to have this templated that's fine too, we will likely just use vertices instead of ints like Geeks for Geeks did */ 
 /* Might not be easily doable without explicity using Vertex and such anyways! */
