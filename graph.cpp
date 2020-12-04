@@ -3,16 +3,19 @@
 
 Graph::Graph() {
     // adjacencyMatrix = std::vector<std::vector<double>>(0, std::vector<double>(0,0)); 
-
 }
 
 Graph::Graph(std::ifstream& fileStream) {
     Vertex V1, V2;
     while(!fileStream.eof()) {
-        std::getline (fileStream, V1, '\t');
-        std::getline (fileStream, V2, '\n');
+        std::getline(fileStream, V1, '\t');
+        std::getline(fileStream, V2, '\n');        
+        if (vertexList[V1] == 0) vertexList[V1] = vertexList.size();
         adjacencyList[V1].push_back(new Graph::Edge(V1, V2));
-        if (adjacencyList.find(V2) == adjacencyList.end()) adjacencyList[V2] = std::vector<Graph::Edge *>();
+        if (adjacencyList.find(V2) == adjacencyList.end()) { 
+            adjacencyList[V2] = std::vector<Graph::Edge *>();
+            vertexList.insert(std::make_pair(V2, vertexList.size()));
+        }
     }
 }
 
@@ -27,7 +30,7 @@ Graph::~Graph() {
 //complete        
 void Graph::insertVertex(Vertex v) {
     //adding to vertex list
-    vertexList.push_back(v);
+    // vertexList.push_back(v);
 
     //Could have problems later if we allow heavy mutation. refer to lab_ml's insertVertex()
     //adding to adjacency list
