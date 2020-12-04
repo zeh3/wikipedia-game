@@ -17,8 +17,6 @@ Graph::Graph(std::ifstream& fileStream) {
 }
 
 Graph::~Graph() {
-    // adjacencyList.clear();
-    // adjacencyMatrix.clear();
     vertexList.clear();
 
     for (std::pair<Vertex, std::vector<Graph::Edge *>> child : adjacencyList) {
