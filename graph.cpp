@@ -7,13 +7,23 @@ Graph::Graph() {
 }
 
 Graph::Graph(std::ifstream& fileStream) {
-    //todo: implement
+    Vertex V1, V2;
+    while(!fileStream.eof()) {
+        std::getline (fileStream, V1, '\t');
+        std::getline (fileStream, V2, '\n');
+        adjacencyList[V1].push_back(new Graph::Edge(V1, V2));
+        if (adjacencyList.find(V2) == adjacencyList.end()) adjacencyList[V2] = std::vector<Graph::Edge *>();
+    }
 }
 
 Graph::~Graph() {
-    adjacencyList.clear();
+    // adjacencyList.clear();
     adjacencyMatrix.clear();
     vertexList.clear();
+
+    for (std::pair<Vertex, std::vector<Graph::Edge *>> child : adjacencyList) {
+        for (int i = 0; i < (int) child.second.size(); i++) if (child.second[i]) delete child.second[i];
+    }
 }
 //complete        
 void Graph::insertVertex(Vertex v) {

@@ -37,9 +37,10 @@ class Graph {
 
         struct Edge {
 
-            Vertex* source = NULL;
-            Vertex* destination = NULL;
-
+            Vertex source;
+            Vertex destination;
+            Edge(){};
+            Edge(Vertex setSrc, Vertex setDest) : source(setSrc), destination(setDest){};
         };
 
     // public:
