@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     Alg::pagerank(graph, 0.5, 100, 0.000005);
     std::cout << "\n";
 
-    std::ifstream file("decoded_links.txt", std::ifstream::in);    
+    std::ifstream file("decoded_links.tsv", std::ifstream::in);    
     Graph Graph(file);
 
     // Vertex V1;
