@@ -9,18 +9,27 @@ Graph::Graph(std::ifstream& fileStream) {
     Vertex V1, V2;
     while(!fileStream.eof()) {
         std::getline(fileStream, V1, '\t');
-        std::getline(fileStream, V2, '\n');        
-        if (vertexList[V1] == 0) vertexList[V1] = vertexList.size();
+        std::getline(fileStream, V2, '\n');
+        
+        if (vert_to_ind.find(V1) == vert_to_ind.end()) { 
+            vert_to_ind[V1] = vert_to_ind.size();
+            vertexList.push_back(V1);
+        }
+
         adjacencyList[V1].push_back(new Graph::Edge(V1, V2));
+        
         if (adjacencyList.find(V2) == adjacencyList.end()) { 
             adjacencyList[V2] = std::vector<Graph::Edge *>();
-            vertexList.insert(std::make_pair(V2, vertexList.size()));
+            vert_to_ind.insert(std::make_pair(V2, vert_to_ind.size()));
+            vertexList.push_back(V2);
         }
+
+        // if (vert_to_ind.find(V2) == vert_to_ind.end()) vertexList.push_back(V2);
     }
 }
 
 Graph::~Graph() {
-    vertexList.clear();
+    vert_to_ind.clear();
 
     for (std::pair<Vertex, std::vector<Graph::Edge *>> child : adjacencyList) {
         for (int i = 0; i < (int) child.second.size(); i++) if (child.second[i]) delete child.second[i];

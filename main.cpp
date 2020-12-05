@@ -20,9 +20,14 @@ int main(int argc, char *argv[]) {
 
 // Test Graph Constructor and Adjacency List / Vertex List is Built Properly
     std::ifstream fileStream("decoded_links.tsv", std::ifstream::in);    
-    // Graph Graph(fileStream);
+    Graph Graph(fileStream);
+    // std::cout << Graph.vert_to_ind.size() << " " << Graph.vertexList.size();
+    for (int i = 0; i < (int) Graph.vert_to_ind.size(); i++) {
+        std::cout << Graph.vertexList[i] << " " << Graph.vert_to_ind[Graph.vertexList[i]] << " " << Graph.vertexList[Graph.vert_to_ind[Graph.vertexList[i]]] << "\n";
+        if (Graph.vert_to_ind[Graph.vertexList[i]] != i) std::cout << "Failure at: " << i << "\n";
+    }
 
-    std::set<Vertex> uniques;
+    // std::set<Vertex> uniques;
     // for (auto child : Graph.vertexList) {
     //     std::cout << "Entry " << child.second << ": " << child.first << "\n";
     //     uniques.insert(child.first);
@@ -49,28 +54,28 @@ int main(int argc, char *argv[]) {
     // std::cout << "There are a Proper Number of "
 
 // Create Custom Adjacency List Outside the Graph File
-    Vertex V1;
-    Vertex V2;
-    std::unordered_map<Vertex, std::vector<Graph::Edge *>> adjacencyList;
-    std::map<Vertex, int> map_reduce;
+    // Vertex V1;
+    // Vertex V2;
+    // std::unordered_map<Vertex, std::vector<Graph::Edge *>> adjacencyList;
+    // std::map<Vertex, int> map_reduce;
     // int lines = 0;
 
-    while(!fileStream.eof()) {
-        std::getline (fileStream, V1, '\t');
-        std::getline (fileStream, V2, '\n');
-        checkForR(V1);
-        checkForR(V2);
-        map_reduce[V1]++;
-        map_reduce[V2]++;
+    // while(!fileStream.eof()) {
+    //     std::getline (fileStream, V1, '\t');
+    //     std::getline (fileStream, V2, '\n');
+        // checkForR(V1);
+        // checkForR(V2);
+        // map_reduce[V1]++;
+        // map_reduce[V2]++;
         // std::cout << "Node 1: " << V1 << "\n";
         // std::cout << "Node 2: " << V2 << "\n";
-        uniques.insert(V1);
-        uniques.insert(V2);
-        adjacencyList[V1].push_back(new Graph::Edge(V1, V2));
-        if (adjacencyList.find(V2) == adjacencyList.end()) adjacencyList[V2] = std::vector<Graph::Edge *>();
-    }
+    //     uniques.insert(V1);
+    //     uniques.insert(V2);
+    //     adjacencyList[V1].push_back(new Graph::Edge(V1, V2));
+    //     if (adjacencyList.find(V2) == adjacencyList.end()) adjacencyList[V2] = std::vector<Graph::Edge *>();
+    // }
     // std::cout << uniques.size();
-    for (auto child : map_reduce) std::cout /*<< "Article: "*/ << child.first << "\t" /*<< "\tCount: "*/ << child.second << "\n";
+    // for (auto child : map_reduce) std::cout /*<< "Article: "*/ << child.first << "\t" /*<< "\tCount: "*/ << child.second << "\n";
     
 
     // for (std::pair<Vertex, std::vector<Graph::Edge *>> child : Graph.adjacencyList) {
