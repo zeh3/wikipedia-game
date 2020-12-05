@@ -175,6 +175,7 @@ TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGr
     auto actual = graph.adjacencyMatrix;
     REQUIRE(actual.size1() == size);
     REQUIRE(actual.size2() == size);
+    REQUIRE (sizeof(actual) / sizeof(actual[0]) == (size * size));
     /*vector<vector<double>> expected = { {0, 0, 0, 0.5, 0, 0, 0}, {0, 0, 0, 0, 0, .5, 0}, 
     {0, 0.5, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0.5}, {0.5, 0.5, 0.5, 0.5, 0, 0.5, 0.5},
     {0.5, 0, 0, 0, 0, 0, 0}, {0, 0, 0.5, 0, 0, 0, 0}};*/
