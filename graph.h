@@ -63,6 +63,8 @@ class Graph {
 
         double* adjacencyMatrix;
 
-        std::unordered_map<Vertex, int> vertexList;
+        std::vector<Vertex> vertexList;
+
+        std::unordered_map<Vertex, int> vert_to_ind;
 
 };
