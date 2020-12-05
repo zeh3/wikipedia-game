@@ -135,3 +135,37 @@ TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][i
     REQUIRE(graph.incidentEdges("B").size() == 1);
 }
 
+TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGraph][adjacencyMatrix]") {
+    int size = 7;
+    ifstream file("tests/connected_graph.tsv");
+    Graph graph(file);
+    auto actual = graph.adjacencyMatrix;
+    REQUIRE (sizeof(actual) / sizeof(actual[0]) == (size * size));
+    /*vector<vector<double>> expected = { {0, 0, 0, 0.5, 0, 0, 0}, {0, 0, 0, 0, 0, .5, 0}, 
+    {0, 0.5, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0.5}, {0.5, 0.5, 0.5, 0.5, 0, 0.5, 0.5},
+    {0.5, 0, 0, 0, 0, 0, 0}, {0, 0, 0.5, 0, 0, 0, 0}};*/
+
+    vector<Vertex> vertexList = graph.vertexList;
+    auto C = std::find(vertexList.begin(), vertexList.end(), "C") - vertexList.begin();
+    auto B = std::find(vertexList.begin(), vertexList.end(), "B") - vertexList.begin();
+    auto F = std::find(vertexList.begin(), vertexList.end(), "F") - vertexList.begin();
+
+    // check a few diaganols
+    REQUIRE(actual[transformCoordinates(C, C, size)] == 0);
+    REQUIRE(actual[(transformCoordinates(C, C, size))] == 0);
+    REQUIRE(actual[(transformCoordinates(C, C, size))] == 0);
+
+    // a few expected 0.5s
+    REQUIRE(actual[transformCoordinates(C, B, size)] == 0.5);
+    REQUIRE(actual[transformCoordinates(B, F, size)] == 0.5);
+
+    // a few reverse edges
+    REQUIRE(actual[transformCoordinates(B, C, size)] == 0);
+    REQUIRE(actual[transformCoordinates(F, B, size)] == 0);
+
+    //just some random thing that should be 0
+    REQUIRE(actual[transformCoordinates(F, C, size)] == 0);
+    REQUIRE(actual[transformCoordinates(C, F, size)] == 0);
+
+
+}
