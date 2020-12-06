@@ -1,10 +1,6 @@
 #include "graph.h"
 #include <iostream>
 
-Graph::Graph() {
-    // adjacencyMatrix = std::vector<std::vector<double>>(0, std::vector<double>(0,0)); 
-}
-
 Graph::Graph(std::ifstream& fileStream) {
     Vertex V1, V2;
     while(!fileStream.eof()) {
@@ -23,114 +19,79 @@ Graph::Graph(std::ifstream& fileStream) {
             vert_to_ind.insert(std::make_pair(V2, vert_to_ind.size()));
             vertexList.push_back(V2);
         }
-
-        // if (vert_to_ind.find(V2) == vert_to_ind.end()) vertexList.push_back(V2);
     }
+    
+    createAdjMat();
 }
 
 Graph::~Graph() {
     vert_to_ind.clear();
+    vertexList.clear();
 
     for (std::pair<Vertex, std::vector<Graph::Edge *>> child : adjacencyList) {
         for (int i = 0; i < (int) child.second.size(); i++) if (child.second[i]) delete child.second[i];
     }
 }
 
-//complete        
+// createAdjMat() must be called after all insertions are complete!
 void Graph::insertVertex(Vertex v) {
     //adding to vertex list
-    // vertexList.push_back(v);
+    vert_to_ind[v] = vert_to_ind.size();
+    vertexList.push_back(v);
 
     //Could have problems later if we allow heavy mutation. refer to lab_ml's insertVertex()
     //adding to adjacency list
-    //maybe need to do a clear here?
     adjacencyList[v] = std::vector<Edge *>();
-
-
-
-    // //resize outer matrix
-    // unsigned size = adjacencyMatrix.size();
-    
-    // adjacencyMatrix.resize(size + 1.0);
-
-    // //loop through inner matrix and resize
-    // if (adjacencyMatrix.size() > 1) {
-    //     for (unsigned i = 0; i < adjacencyMatrix.size(); i++) {
-    //         unsigned innserSize = adjacencyMatrix[i].size();
-    //         adjacencyMatrix[i].resize(size + 1);
-
-    //     }
-    // }
-
-
-
-
 }
 
-//complete
+// createAdjMat() must be called after all insertions are complete!
 void Graph::insertEdge(Vertex v1, Vertex v2) {
-
-    //grab a reference to the vector in my unordered map
-
     std::vector<Edge*> & edges = adjacencyList[v1];
-    //insert the edge to the vertex
     edges.insert(edges.begin(), new Edge(v1, v2));
-
-    // loop through vertices list and find indeces;
-    int firstVertex = 0;
-    int secondVertex = 0;
-    //loop through vertex list
-    // for (unsigned i = 0; i < vertexList.size(); i++) {
-    //     if (vertexList[i] ==  v1) {
-    //         firstVertex = i;
-    //     } else if (vertexList[i] == v2) {
-    //         secondVertex = i;
-    //     }
-    // }
-
-    // //adjust matrix appropiatley
-    // if (adjacencyMatrix[firstVertex][secondVertex] == 0) {
-
-    //     adjacencyMatrix[firstVertex][secondVertex] = 1;
-
-    // } else {
-    //     double recip = 1 / adjacencyMatrix[firstVertex][secondVertex];
-
-    //     recip +=1;
-
-    //     adjacencyMatrix[firstVertex][secondVertex] = 1/ recip;
-
-    // }
-
-
-
-
 }
 
-//completed
 std::vector<Graph::Edge*> Graph::incidentEdges(Vertex v) {
-
     std::vector<Graph::Edge*> incidentEdges = adjacencyList[v];
-
     return incidentEdges;
 }
-//completed
-bool Graph::areAdjacent(Vertex v1, Vertex v2) {
 
-    int indexOne = 0;
-    int indexTwo = 0;
-    //loop through vertexList to get Indices
-    // for (unsigned  i = 0; i < vertexList.size(); i++) {
-    //     if (vertexList[i] == v1) {
-    //         indexOne = i;
-    //     } else if (vertexList[i] ==(v2)) {
-    //         indexTwo = i;
-    //     }
-    // }
+bool Graph::areAdjacent(Vertex source, Vertex dest) {
+    int source_ind = vert_to_ind[source];
+    int dest_ind = vert_to_ind[dest];
+    return !adjacencyMatrix(source_ind, source_ind) && adjacencyMatrix(dest_ind, source_ind);
+}
 
-    // if (adjacencyMatrix[indexOne][indexTwo] != 0) {
-    //     return true;
-    // }
+void Graph::createAdjMat() {
+    size_t dim = adjacencyList.size();
+    adjacencyMatrix = ublas::matrix<double>(dim, dim, 0);
 
-    return false;
+    for(auto entry : adjacencyList) {
+        Vertex vertex = entry.first;
+        auto edges = entry.second;
+        int col_ind = vert_to_ind[vertex];
+        if(edges.size()) {
+            double val = 1.0/edges.size();
+            for(auto edge : edges) {
+                int row_ind = vert_to_ind[edge->destination];
+                adjacencyMatrix(row_ind, col_ind) = val;
+            }
+        } else {
+            double val = 1.0/adjacencyList.size();
+            for(size_t row_ind = 0; row_ind < adjacencyList.size(); row_ind++) {
+                adjacencyMatrix(row_ind, col_ind) = val;
+            }
+        }
+    }
+}
+
+void Graph::printAdjMat() {
+    for(auto entry : vert_to_ind) {
+        std::cout << entry.first + " is indexed at " << entry.second << std::endl;
+    }
+    for(size_t i = 0; i < adjacencyMatrix.size1(); i++) {
+        for(size_t j = 0; j < adjacencyMatrix.size2(); j++) {
+            std::cout << adjacencyMatrix(i, j) << "\t";
+        }
+        std::cout << std::endl;
+    }
 }
