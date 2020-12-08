@@ -3,6 +3,8 @@
 #include "../graph.h"
 #include <iostream>
 #include <vector>
+#include "../algorithms.hpp"
+#include <unordered_map>
 
 using std::string;
 using Edge = Graph::Edge;
@@ -28,10 +30,37 @@ Graph createSimpleGraph() {
     graph.insertEdge("A", "B");
 
     graph.insertEdge("B", "C");
+
     graph.createAdjMat();
     // graph.printAdjMat();
 
     return graph;
+}
+Graph createMediumGraph() {
+    Graph graph;
+    graph.insertVertex("A");
+    graph.insertVertex("B");
+    graph.insertVertex("C");
+    graph.insertVertex("D");
+    graph.insertVertex("E");
+    graph.insertVertex("F");
+    graph.insertVertex("G");
+    graph.insertVertex("H");
+
+    graph.insertEdge("A", "B");
+    graph.insertEdge("B", "C");
+    graph.insertEdge("C", "D");
+    graph.insertEdge("E", "F");
+    graph.insertEdge("G", "H");
+    graph.insertEdge("H", "A");
+    graph.insertEdge("A", "D");
+    graph.insertEdge("H", "C");
+    graph.insertEdge("B", "F");
+    graph.insertEdge("A", "E");
+
+    return graph;
+
+
 }
 
 // for checking adjacency matrix things
@@ -67,7 +96,7 @@ TEST_CASE("simple graph adjacencies correct", "[defaultConstructor][insertVertex
     REQUIRE(graph.areAdjacent("B", "C"));
     REQUIRE(!graph.areAdjacent("A", "C"));
 }
-    
+    /*
 TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][insertEdge][simpleGraph][adjacencyMatrix][vertexList]") {
      Graph graph = createSimpleGraph();
      matrix<double> mat = graph.adjacencyMatrix;
@@ -92,7 +121,7 @@ TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][i
      REQUIRE(mat[transformCoordinates(AIndex, CIndex, 3)] == 0);
      REQUIRE(mat[transformCoordinates(CIndex, AIndex, 3)] == 0);
 }
-
+*/
 /*
 * The graph for these test cases can be found in connected_graph.JPG
 */
@@ -137,16 +166,16 @@ TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][i
     REQUIRE(graph.incidentEdges("C").size() == 1);
     REQUIRE(graph.incidentEdges("B").size() == 1);
 }
-
+/*
 TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGraph][adjacencyMatrix]") {
     int size = 7;
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
     auto actual = graph.adjacencyMatrix;
     REQUIRE (sizeof(actual) / sizeof(actual[0]) == (size * size));
-    /*vector<vector<double>> expected = { {0, 0, 0, 0.5, 0, 0, 0}, {0, 0, 0, 0, 0, .5, 0}, 
+    vector<vector<double>> expected = { {0, 0, 0, 0.5, 0, 0, 0}, {0, 0, 0, 0, 0, .5, 0}, 
     {0, 0.5, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0.5}, {0.5, 0.5, 0.5, 0.5, 0, 0.5, 0.5},
-    {0.5, 0, 0, 0, 0, 0, 0}, {0, 0, 0.5, 0, 0, 0, 0}};*/
+    {0.5, 0, 0, 0, 0, 0, 0}, {0, 0, 0.5, 0, 0, 0, 0}};
 
     vector<Vertex> vertexList = graph.vertexList;
     auto C = std::find(vertexList.begin(), vertexList.end(), "C") - vertexList.begin();
@@ -171,4 +200,29 @@ TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGr
     REQUIRE(actual[transformCoordinates(C, F, size)] == 0);
 
 
+}
+*/
+TEST_CASE("basic bfs test") {
+    Graph graph = createMediumGraph();
+    Vertex start = graph.vertexList[0];
+    std::vector<std::pair<Edge *, std::string>> result = Alg::bfs(graph, start);
+
+    for (unsigned i = 0; i < result.size(); i++) {
+        std::cout << result[i].first->source << " " << result[i].first->destination << " " <<result[i].second << std::endl;
+    }
+
+    std::unordered_map<Vertex, int> vertexTracker;
+
+   for (unsigned i = 0; i < result.size(); i++) {
+        if (vertexTracker.find(result[i].first->destination) != vertexTracker.end()) {
+            REQUIRE(result[i].second == "cross");
+        } else {
+            REQUIRE(result[i].second == "discovery");
+
+        }
+
+       vertexTracker[result[i].first->source] = 1;
+       vertexTracker[result[i].first->destination] = 1;
+
+   }
 }
