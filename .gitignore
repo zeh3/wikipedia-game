@@ -4,3 +4,4 @@ graph
 graph.o
 main
 main.o
+.nfs*

@@ -1,5 +1,6 @@
 #include "graph.h"
 #include <iostream>
+#include <iomanip>
 
 Graph::Graph(std::ifstream& fileStream) {
     Vertex V1, V2;
@@ -24,13 +25,65 @@ Graph::Graph(std::ifstream& fileStream) {
     createAdjMat();
 }
 
+Graph::Graph(const Graph & other) {
+    unsigned size = other.adjacencyList.size();
+    std::vector<Edge *> temp;
+
+    for (auto entry : other.adjacencyList) {
+        temp.clear();
+        for (Edge * edge : entry.second) {
+            temp.push_back(new Graph::Edge(edge->source, edge->destination));
+        }
+        this->adjacencyList.insert(std::make_pair(entry.first, temp));
+    }
+
+    for (unsigned i = 0; i < size; i++) {
+        this->vertexList.push_back(other.vertexList[i]);
+    }
+
+    for (auto entry : vert_to_ind) {
+        this->vert_to_ind.insert(std::make_pair(entry.first, entry.second));
+    }
+
+    this->adjacencyMatrix.resize(size, size);
+    for (unsigned i = 0; i < size; i++) {
+        for (unsigned j = 0; j < size; j++) {
+            this->adjacencyMatrix.at_element(i, j) = other.adjacencyMatrix(i, j);
+        }
+    }
+    
+}
+
 Graph::~Graph() {
     vert_to_ind.clear();
     vertexList.clear();
 
     for (std::pair<Vertex, std::vector<Graph::Edge *>> child : adjacencyList) {
-        for (int i = 0; i < (int) child.second.size(); i++) if (child.second[i]) delete child.second[i];
+        for (unsigned i = 0; i < child.second.size(); i++) if (child.second[i]) delete child.second[i];
     }
+}
+
+
+Graph & Graph::operator=(const Graph & other) {
+    if (*this == other) return *this;
+    *this = Graph(other);
+    return *this;
+}
+
+bool Graph::operator==(const Graph & other) {
+    unsigned size = other.adjacencyList.size();
+    if (this->adjacencyList.size() != size) return false;
+
+    for (auto entry : other.adjacencyList) {
+        auto thisList = this->adjacencyList[entry.first];
+        if (thisList.size() != entry.second.size()) return false;
+        for (unsigned i = 0; i < entry.second.size(); i++) {
+            if (entry.second[i]->source != thisList[i]->source 
+                || entry.second[i]->destination != thisList[i]->destination) return false;
+        }
+    }
+
+    return true;
 }
 
 // createAdjMat() must be called after all insertions are complete!

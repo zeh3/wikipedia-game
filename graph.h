@@ -23,12 +23,13 @@ class Graph {
             Edge(Vertex setSrc, Vertex setDest) : source(setSrc), destination(setDest){};
         };
         
-        Graph(){};
-
-        Graph(std::ifstream& fileStream);
-
+        Graph(std::ifstream& fileStream);        
+        Graph(const Graph &other);
         ~Graph();
 
+
+        Graph & operator=(const Graph & other);
+        bool operator==(const Graph & other);
         void createAdjMat();
         void printAdjMat();
 
