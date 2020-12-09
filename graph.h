@@ -19,8 +19,10 @@ class Graph {
         struct Edge {
             Vertex source;
             Vertex destination;
+            double weight = 1;
             Edge(){};
             Edge(Vertex setSrc, Vertex setDest) : source(setSrc), destination(setDest){};
+            Edge(Vertex setSrc, Vertex setDest, double setWeight) : source(setSrc), destination(setDest), weight(setWeight) {};
         };
         
         Graph(){};

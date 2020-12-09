@@ -8,14 +8,27 @@
 #include <numeric>
 
 namespace ublas = boost::numeric::ublas;
+using std::priority_queue;
+using Edge = Graph::Edge;
+using std::vector;
+using std::cout;
+using std::endl;
 
 /* If we don't want to have this templated that's fine too, we will likely just use vertices instead of ints like Geeks for Geeks did */ 
 /* Might not be easily doable without explicity using Vertex and such anyways! */
 
 namespace Alg {
-    void shortest_path(const Graph& path, Vertex start, Vertex end) {
+    vector<Edge> shortest_path(const Graph& graph, Vertex start, Vertex end) {
         //https://www.geeksforgeeks.org/c-program-for-dijkstras-shortest-path-algorithm-greedy-algo-7/
-        std::cout << "\nShortest_Path:\n";
+
+        auto comparison = [](Edge lhs, Edge rhs) { return lhs.weight > rhs.weight; };
+        priority_queue<Edge, vector<Edge>, decltype(comparison) > pq(comparison);
+        
+        vector<Edge> path;
+
+
+        return path;
+        
     }
 
     // template <class G, class V>
