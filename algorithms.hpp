@@ -10,6 +10,8 @@
 #include <vector>
 
 namespace ublas = boost::numeric::ublas;
+#include <unordered_map>
+#include <vector>
 using Edge = Graph::Edge;
 
 
