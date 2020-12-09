@@ -72,25 +72,26 @@ TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][i
      Graph graph = createSimpleGraph();
      matrix<double> mat = graph.adjacencyMatrix;
      //size
-     REQUIRE(sizeof(mat) / sizeof(mat[0]) == 9);
+     REQUIRE(mat.size1() == 3);
+     REQUIRE(mat.size2() == 3);
 
      auto v = graph.vertexList;
      size_t AIndex = std::find(v.begin(), v.end(), "A") - v.begin();
      auto BIndex = std::find(v.begin(), v.end(), "B") - v.begin();
      auto CIndex = std::find(v.begin(), v.end(), "C") - v.begin();
      //nonzero values
-     REQUIRE(mat[transformCoordinates(AIndex, BIndex, 3)] == 1);
-     REQUIRE(mat[transformCoordinates(BIndex, CIndex, 3)] == 1);
+     REQUIRE(mat(BIndex, AIndex) == 1);
+     REQUIRE(mat(CIndex, BIndex) == 1);
      //diaganols
-     REQUIRE(mat[transformCoordinates(AIndex, AIndex, 3)] == 0);
-     REQUIRE(mat[transformCoordinates(BIndex, BIndex, 3)] == 0);
-     REQUIRE(mat[transformCoordinates(CIndex, CIndex, 3)] == 0);
+     REQUIRE(mat(AIndex, AIndex) == 0);
+     REQUIRE(mat(BIndex, BIndex) == 0);
+     REQUIRE(mat(CIndex, CIndex) == 1.0 / 3.0);
      //reversed edges
-     REQUIRE(mat[transformCoordinates(BIndex, AIndex, 3)] == 0);
-     REQUIRE(mat[transformCoordinates(CIndex, BIndex, 3)] == 0);
+     REQUIRE(mat(AIndex, BIndex) == 0);
+     REQUIRE(mat(BIndex, CIndex) == 1.0 / 3.0);
      //everything else lol
-     REQUIRE(mat[transformCoordinates(AIndex, CIndex, 3)] == 0);
-     REQUIRE(mat[transformCoordinates(CIndex, AIndex, 3)] == 0);
+     REQUIRE(mat(AIndex, CIndex) == 1.0 / 3.0);
+     REQUIRE(mat(CIndex, AIndex) == 0);
 }
 
 /*
@@ -143,7 +144,8 @@ TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGr
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
     auto actual = graph.adjacencyMatrix;
-    REQUIRE (sizeof(actual) / sizeof(actual[0]) == (size * size));
+    REQUIRE(actual.size1() == size);
+    REQUIRE(actual.size2() == size);
     /*vector<vector<double>> expected = { {0, 0, 0, 0.5, 0, 0, 0}, {0, 0, 0, 0, 0, .5, 0}, 
     {0, 0.5, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0.5}, {0.5, 0.5, 0.5, 0.5, 0, 0.5, 0.5},
     {0.5, 0, 0, 0, 0, 0, 0}, {0, 0, 0.5, 0, 0, 0, 0}};*/
@@ -152,23 +154,33 @@ TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGr
     auto C = std::find(vertexList.begin(), vertexList.end(), "C") - vertexList.begin();
     auto B = std::find(vertexList.begin(), vertexList.end(), "B") - vertexList.begin();
     auto F = std::find(vertexList.begin(), vertexList.end(), "F") - vertexList.begin();
+    auto E = std::find(vertexList.begin(), vertexList.end(), "E") - vertexList.begin();
 
     // check a few diaganols
-    REQUIRE(actual[transformCoordinates(C, C, size)] == 0);
-    REQUIRE(actual[(transformCoordinates(C, C, size))] == 0);
-    REQUIRE(actual[(transformCoordinates(C, C, size))] == 0);
+    REQUIRE(actual(C, C) == 0);
+    REQUIRE(actual(B, B) == 0);
+    REQUIRE(actual(F, F) == 0);
+    REQUIRE(actual(E, E) == 0);
 
-    // a few expected 0.5s
-    REQUIRE(actual[transformCoordinates(C, B, size)] == 0.5);
-    REQUIRE(actual[transformCoordinates(B, F, size)] == 0.5);
+    // a few expected 1.0s
+    REQUIRE(actual(B, C) == 1.0);
+    REQUIRE(actual(F, B) == 1.0);
+
+    // a few expected 1 / 6
+    REQUIRE(actual(C, E) == 1.0 / 6.0);
+    REQUIRE(actual(B, E) == 1.0 / 6.0);
+    REQUIRE(actual(F, E) == 1.0 / 6.0);
 
     // a few reverse edges
-    REQUIRE(actual[transformCoordinates(B, C, size)] == 0);
-    REQUIRE(actual[transformCoordinates(F, B, size)] == 0);
+    REQUIRE(actual(C, B) == 0);
+    REQUIRE(actual(B, F) == 0);
 
     //just some random thing that should be 0
-    REQUIRE(actual[transformCoordinates(F, C, size)] == 0);
-    REQUIRE(actual[transformCoordinates(C, F, size)] == 0);
+    REQUIRE(actual(C, F) == 0);
+    REQUIRE(actual(F, C) == 0);
+    REQUIRE(actual(E, C) == 0);
+    REQUIRE(actual(E, B) == 0);
+    REQUIRE(actual(E, F) == 0);
 
 
 }
