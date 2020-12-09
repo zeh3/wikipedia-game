@@ -13,8 +13,11 @@ int main(int argc, char *argv[]) {
     Alg::shortest_path(graph, start, end);
     Alg::bfs(graph, start);
     auto result = Alg::pagerank(graph, 0.85, 1000, 1e-5);
+    int count = 0;
     for(auto entry : result) {
+        count++;
         std::cout << entry.first + ": " << entry.second << std::endl;
+        if(count > 10) break;
     }
     return 0;
 }

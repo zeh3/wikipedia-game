@@ -23,6 +23,7 @@ class Graph {
             Edge(Vertex setSrc, Vertex setDest) : source(setSrc), destination(setDest){};
         };
         
+        Graph(){};
         Graph(std::ifstream& fileStream);        
         Graph(const Graph &other);
         ~Graph();
