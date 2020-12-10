@@ -6,6 +6,7 @@
 #include <boost/numeric/ublas/vector.hpp>
 #include <algorithm>
 #include <numeric>
+#include <unordered_map>
 
 namespace ublas = boost::numeric::ublas;
 using std::priority_queue;
@@ -13,6 +14,9 @@ using Edge = Graph::Edge;
 using std::vector;
 using std::cout;
 using std::endl;
+using std::pair;
+using std::string;
+using std::unordered_map;
 
 /* If we don't want to have this templated that's fine too, we will likely just use vertices instead of ints like Geeks for Geeks did */ 
 /* Might not be easily doable without explicity using Vertex and such anyways! */
@@ -20,9 +24,22 @@ using std::endl;
 namespace Alg {
     vector<Edge> shortest_path(const Graph& graph, Vertex start, Vertex end) {
         //https://www.geeksforgeeks.org/c-program-for-dijkstras-shortest-path-algorithm-greedy-algo-7/
+        // set up priority queue
+        auto comparison = [](pair<string, double> lhs, pair<string, double> rhs) { return lhs.second > rhs.second; };
+        priority_queue<pair<string, double>, vector<pair<string, double>>, decltype(comparison) > pq(comparison);
+        pq.push({start, 0});
 
-        auto comparison = [](Edge lhs, Edge rhs) { return lhs.weight > rhs.weight; };
-        priority_queue<Edge, vector<Edge>, decltype(comparison) > pq(comparison);
+        // set up distance map
+
+        unordered_map<string, double> dist;
+        dist[start] = 0;
+        vector<string> vertexes = graph.vertexList;
+        for (string v : vertexes) {
+            if (v != start) {
+                dist[v] = INFINITY;
+            }
+        }
+
         
         vector<Edge> path;
 
