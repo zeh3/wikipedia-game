@@ -43,7 +43,7 @@ class Graph {
         void insertVertex(Vertex v);
         void insertEdge(Vertex v1, Vertex v2);
 
-        std::vector<Edge*> incidentEdges(Vertex v);
+        std::vector<Edge*> incidentEdges(Vertex v) const;
         bool areAdjacent(Vertex v1, Vertex v2);
 
         std::unordered_map<Vertex, std::vector<Edge *>> adjacencyList;

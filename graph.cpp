@@ -103,8 +103,8 @@ void Graph::insertEdge(Vertex v1, Vertex v2) {
     edges.insert(edges.begin(), new Edge(v1, v2));
 }
 
-std::vector<Graph::Edge*> Graph::incidentEdges(Vertex v) {
-    std::vector<Graph::Edge*> incidentEdges = adjacencyList[v];
+std::vector<Graph::Edge*> Graph::incidentEdges(Vertex v) const {
+    std::vector<Graph::Edge*> incidentEdges = adjacencyList.at(v);
     return incidentEdges;
 }
 
