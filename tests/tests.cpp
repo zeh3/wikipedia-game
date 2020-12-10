@@ -184,3 +184,31 @@ TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGr
 
 
 }
+
+
+
+// dijkstra's
+
+TEST_CASE("unweighted graph constructor defaults to 1", "[ifstreamConstructor][adjacencyList][edge]") {
+    ifstream file("tests/disconnected_graph.tsv");
+    Graph graph(file);
+    auto adjList = graph.adjacencyList;
+    for (auto pairs : adjList) {
+        auto edges = pairs.second;
+        for (Edge* e : edges) {
+            REQUIRE(e->weight == 1);
+        }
+    }
+}
+
+TEST_CASE("weighted graph constructor works", "[ifstreamConstructor][adjacencyList][edge]") {
+    ifstream file("tests/connected_graph_weights.tsv");
+    Graph graph(file, true);
+
+    auto adjList = graph.adjacencyList;
+    // test a few weights
+    REQUIRE(adjList["C"][0]->weight == 0);
+    REQUIRE(adjList["D"][0]->weight == 1);
+    REQUIRE(adjList["A"][0]->weight == 1);
+    REQUIRE(adjList["B"][0]->weight == 0);
+}
