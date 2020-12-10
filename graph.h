@@ -26,7 +26,7 @@ class Graph {
         };
         
         Graph(){};
-        Graph(std::ifstream& fileStream);        
+        Graph(std::ifstream& fileStream, bool weighted = false);        
         Graph(const Graph &other);
         ~Graph();
 
