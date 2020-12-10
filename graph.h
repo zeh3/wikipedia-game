@@ -23,6 +23,10 @@ class Graph {
             Edge(){};
             Edge(Vertex setSrc, Vertex setDest) : source(setSrc), destination(setDest){};
             Edge(Vertex setSrc, Vertex setDest, double setWeight) : source(setSrc), destination(setDest), weight(setWeight) {};
+            bool operator==(const Edge& other) const
+            {
+                return (source == other.source) && (destination == other.destination) && (weight == other.weight);
+            }
         };
         
         Graph(){};
