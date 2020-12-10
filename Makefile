@@ -19,7 +19,7 @@ main.o : main.cpp algorithms.hpp
 test : output_msg tests.o graph.o
 	$(LD) tests.o graph.o $(LDFLAGS) -o test
 
-tests.o : tests/tests.cpp tests/catch/catch.hpp
+tests.o : tests/tests.cpp tests/catch/catch.hpp algorithms.hpp
 	$(CXX) $(CXXFLAGS) tests/tests.cpp
 
 graph.o: graph.h graph.cpp

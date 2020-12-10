@@ -3,6 +3,7 @@
 #include "../graph.h"
 #include <iostream>
 #include <vector>
+#include "../algorithms.hpp"
 
 using std::string;
 using Edge = Graph::Edge;
@@ -101,7 +102,6 @@ TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][i
 TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][vertexList][connectedGraph]") {
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
-    cout << "done with graph" << endl;
     auto v = graph.vertexList;
     vector<string> actualLabels = {"A", "B", "C", "D", "E", "F", "G"};
 
@@ -211,4 +211,28 @@ TEST_CASE("weighted graph constructor works", "[ifstreamConstructor][adjacencyLi
     REQUIRE(adjList["D"][0]->weight == 1);
     REQUIRE(adjList["A"][0]->weight == 1);
     REQUIRE(adjList["B"][0]->weight == 0);
+}
+
+TEST_CASE("shortest path of 0s", "[shortestPath]") {
+    ifstream file("tests/connected_graph_weights.tsv");
+    Graph graph(file, true);
+
+    vector<Edge> path = Alg::shortest_path(graph, "E", "F");
+    double total_weight = 0;
+    for (Edge e : path) {
+        total_weight += e.weight;
+    }
+
+    vector<Edge> expectedPath = {Edge("E", "C", 0), Edge("C", "B", 0), Edge("B", "F", 0)};
+
+    REQUIRE(total_weight == 0);
+    REQUIRE(path == expectedPath);
+}
+
+TEST_CASE("shortest path of length 1", "[shortestPath]") {
+    ifstream file("tests/connected_graph_weights.tsv");
+    Graph graph(file, true);
+
+    vector<Edge> expectedPath = {Edge("E", "G", 1)};
+    REQUIRE(Alg::shortest_path(graph, "E", "G") == expectedPath);
 }
