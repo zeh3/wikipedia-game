@@ -187,9 +187,7 @@ The tests that will be run are located within the tests folder of the project, a
   * Adjacency List Graph Implementation
   * Adjacency-Matrix supplement for PageRank
   * String Type-Definition Vertex Implementation
- 
-* #### Edge Struct
-  * Graph-Edge Object Implementation
-</details>
+  * Edge inner struct
+  </details>
 
 
