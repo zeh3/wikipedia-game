@@ -17,7 +17,7 @@ std::vector<std::string> argsToStrings(int argCount, char *args[]) {
 
 int defaultExecution(int argc, char * argv[]) {
     // 2 Arguments Alone Doesn't Make Sense so just do Default Execution  
-    if (argc > 1) std::cout << "Invalid Argument Count: Defaulting to Standard Execution\n";
+    if (argc > 1) std::cout << "\nInvalid Argument Count: Defaulting to Standard Execution\n";
 
     // Create Wikipedia Article Graph
     std::ifstream file("decoded_links.tsv");
@@ -40,7 +40,7 @@ int defaultExecution(int argc, char * argv[]) {
         if (stepCount != result_BFS.size() - 1) {
             defaultMessage += "\t\t\tStep " + std::to_string(stepCount) + ": " + result_BFS[stepCount] + "\n";
         } else {
-            defaultMessage += "\t\t\tEnding Article - Step: " + std::to_string(stepCount) + ": " + result_BFS[stepCount] + "\n";
+            defaultMessage += "\t\t\tEnd Step " + std::to_string(stepCount) + ": " + result_BFS[stepCount] + "\n";
         }
     }
     
@@ -73,18 +73,19 @@ int defaultExecution(int argc, char * argv[]) {
 */
 int pageRankExecution(std::vector<std::string> arguments, int argc, Graph inputTsv) {
     
-    std::string messageFile = "";
+    std::string messageFile = "\nPagerank Algorithm for Wikipedia Dataset(http://snap.stanford.edu/data/wikispeedia.html):\n";
+
     // Not Enough Arguments for Pagerank -> Break
     if (argc < 4) { 
-        std::cout << "Invalid Argument Count for PageRank Algorithm. Please look at \'How to Build\' section on Github to learn more!"; 
-        std::cout << "\nEnding Execution\n"; return 0; 
+        std::cout << "\nInvalid Argument Count for PageRank Algorithm. Please look at \'How to Build\' section on Github to learn more!"; 
+        std::cout << "\nEnding Execution\n\n"; return 0; 
     }
     std::list<std::pair<Vertex, double>> result = Alg::pagerank(inputTsv, 0.85, 1000, 1e-7);
     
     // Grabs Top n-articles from the Pagerank results and adds them to the output file string
     unsigned top_articles = std::stoi(arguments[3]);
     for(std::pair<Vertex, double> entry : result) {
-        messageFile += entry.first + ": " + std::to_string(entry.second) + "\n";
+        messageFile += "\t" + entry.first + ": " + std::to_string(entry.second) + "\n";
         if (!top_articles--) break;
     }
 
@@ -102,11 +103,12 @@ int pageRankExecution(std::vector<std::string> arguments, int argc, Graph inputT
 */
 int BFSExecution(std::vector<std::string> arguments, Graph inputTsv) {
 
-    std::string messageFile = "";
+    std::string messageFile = "\nGraph Breadth-First Search Algorithm:\n";
+;
     // Check to make sure Start Point is in the Graph
     if (inputTsv.adjacencyList.find(arguments[3]) == inputTsv.adjacencyList.end()) {
-        std::cout << "Invalid Start Article. Please ensure that this Article is within the Dataset!";
-        std::cout << "\nEnding Execution\n"; return 0;
+        std::cout << "\nInvalid Start Article. Please ensure that this Article is within the Dataset!";
+        std::cout << "\nEnding Execution\n\n"; return 0;
     }
     std::vector<Vertex> traversalPath = Alg::bfs(inputTsv, arguments[3]);
 
@@ -114,9 +116,9 @@ int BFSExecution(std::vector<std::string> arguments, Graph inputTsv) {
     messageFile += "Starting from: " + arguments[3] + "\n";
     for (unsigned stepCount = 0; stepCount < traversalPath.size(); stepCount++) {                
         if (stepCount != traversalPath.size() - 1) {
-            messageFile += "Step " + std::to_string(stepCount) + ": " + traversalPath[stepCount] + "\n";
+            messageFile += "\tStep " + std::to_string(stepCount) + ": " + traversalPath[stepCount] + "\n";
         } else {
-            messageFile += "Ending Article - Step: " + std::to_string(stepCount) + ": " + traversalPath[stepCount] + "\n";
+            messageFile += "End Step " + std::to_string(stepCount) + ": " + traversalPath[stepCount] + "\n";
         }
     }
 
@@ -134,26 +136,32 @@ int BFSExecution(std::vector<std::string> arguments, Graph inputTsv) {
 */
 int dijkstraExecution(std::vector<std::string> arguments, int argc, Graph inputTsv) {
 
-    std::string messageFile = "";
+    std::string messageFile = "\nDijkstra's Shortest Path Algorithm:\n";
     // Checks Quantity of Dijkstras algorithm
     if (argc < 5) { 
-        std::cout << "Invalid Argument Count for Dijkstra's Algorithm. Please look at \'How to Build\' section on Github to learn more!"; 
-        std::cout << "\nEnding Execution\n"; return 0; 
+        std::cout << "\nInvalid Argument Count for Dijkstra's Algorithm. Please look at \'How to Build\' section on Github to learn more!"; 
+        std::cout << "\nEnding Execution\n\n"; return 0; 
     }
 
     // Ensure Both Starting and Ending Points are in the Graph
     if (inputTsv.adjacencyList.find(arguments[3]) == inputTsv.adjacencyList.end() 
         || inputTsv.adjacencyList.find(arguments[4]) == inputTsv.adjacencyList.end()) {
-        std::cout << "Invalid Start and/or End Articles. Please ensure that these Articles are within the Dataset!"; 
-        std::cout << "\nEnding Execution\n"; return 0; 
+        std::cout << "\nInvalid Start and/or End Articles. Please ensure that these Articles are within the Dataset!"; 
+        std::cout << "\nEnding Execution\n\n"; return 0; 
     }
     std::vector<Edge> result = Alg::shortest_path(inputTsv, arguments[3], arguments[4]);
+
+    if (result.size() == 0) {
+        std::cout << "\nThere appears to be no path from " << arguments[3] << " to " << arguments[4] << " within the graph.";
+        std::cout << "\nPlease try again, using different Start and End Points!\n\n";
+        return 2;
+    }
 
     // Build Output File String
     messageFile += "Starting from: " + arguments[3] + "\t Going to: " + arguments[4] + "\n";
     int counter = 0;
     for(Edge edge : result) {
-        messageFile += "Step " + std::to_string(counter++) + ": " + edge.source + " to " + edge.destination + "\n";
+        messageFile += "\tStep " + std::to_string(counter++) + ": " + edge.source + " to " + edge.destination + "\n";
     }
 
     // Printing to File

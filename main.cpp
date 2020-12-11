@@ -14,7 +14,10 @@ int main(int argc, char *argv[]) {
 
         // Attempts to Read Passed in File Arguments
         std::ifstream file(arguments[2]);
-        if (!file.is_open()) {std::cout << "Invalid File or Invalid File Path. Please ensure the file is reachable and has the correct path"; std::cout << "\nEnding Execution\n"; return 0;}
+        if (!file.is_open()) {
+            std::cout << "Invalid File or Invalid File Path. Please ensure the file is reachable and has the correct path"; 
+            successful = false;
+        }
         
         // Builds Graph and Creates File Content String
         Graph inputTsv(file);
@@ -25,11 +28,13 @@ int main(int argc, char *argv[]) {
         } else if (arguments[1] == "bfs") {
             successful = BFSExecution(arguments, inputTsv);
         } else if (arguments[1] == "dijkstras") {
-            successful = dijkstraExecution(arguments, argc, inputTsv);
+            int temp = dijkstraExecution(arguments, argc, inputTsv);
+            if (temp == 2) return 0;
+            successful = temp;
         } else {
             // Arguments Didn't Match Any Algorithm Definition
             successful = false;
-            std::cout << "Sorry, you have entered an invalid argument sequence! Please look at \'How to Build\' section on Github to learn more!";
+            std::cout << "Sorry, you have entered an invalid argument sequence! Please look at \'How to Build\' section on Github to learn more!\n";
         }
 
 
@@ -39,6 +44,8 @@ int main(int argc, char *argv[]) {
         std::cout << "\nSuccess: Please Examine the Contents of the Outputs Folder in your Directory to find your Results!\n";
     else
         std::cout << "\nFailure: Please try again after adjusting your arguments!\n";
+
+    std::cout << "Ending Execution\n\n";
     return 0;
 }
 
