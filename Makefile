@@ -7,14 +7,19 @@ LD = clang++
 WARNINGS = -pedantic -Wall -Werror -Wfatal-errors -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function
 CXXFLAGS = -std=c++1y -stdlib=libc++ -O0 $(WARNINGS) -g -c
 LDFLAGS = -std=c++1y -stdlib=libc++ -lc++abi
+MKDIR_P = mkdir -p
+
 
 all : $(EXE)
 
 $(EXE) : output_msg $(OBJS)
-	$(LD) $(OBJS) $(LDFLAGS) -o $(EXE)
+	$(LD) $(OBJS) $(LDFLAGS) -o $(EXE) 
 
-main.o : main.cpp algorithms.hpp
-	$(CXX) $(CXXFLAGS) main.cpp
+main.o : main.cpp algorithms.hpp mainHelper.hpp outputs
+	$(CXX) $(CXXFLAGS) main.cpp 
+	
+outputs:
+	mkdir -p Outputs
 
 test : output_msg tests.o graph.o
 	$(LD) tests.o graph.o $(LDFLAGS) -o test

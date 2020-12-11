@@ -1,36 +1,49 @@
-#include <iostream>
-#include "algorithms.hpp"
-#include "graph.h"
-#include <vector>
-
-// using boost::numeric::ublas::matrix;
-using std::vector;
-using std::cout;
-using std::endl;
+#include "mainHelper.hpp"
 
 int main(int argc, char *argv[]) {
-    std::ifstream file("decoded_links.tsv");
-    Graph graph(file);
-    // graph.printAdjMat();
 
-    vector<Vertex> vertexes = graph.vertexList;
-    srand(time(NULL));
-    Vertex start = vertexes[rand() % vertexes.size()];
-    Vertex end = vertexes[rand() % vertexes.size()];
-    vector<Edge> path = Alg::shortest_path(graph, start, end);
-    cout << "The shortest path from " << start << " to " << end << ":" << endl;
-    for (Edge e : path) {
-        cout << e.source << " -> ";
-    }
-    cout << end << endl;
+    bool successful = true;
 
-    Alg::bfs(graph, start);
-    auto result = Alg::pagerank(graph, 0.85, 1000, 1e-5);
-    int count = 0;
-    for(auto entry : result) {
-        count++;
-        std::cout << entry.first + ": " << entry.second << std::endl;
-        if(count > 10) break;
+    // Defaults
+    if (argc <= 3) {      
+        defaultExecution(argc, argv);
+    } else { // Complex Arguments
+        // Parsing Arguments and Converting to Lowercase for the Command for Comparison
+        std::vector<std::string> arguments = argsToStrings(argc, argv);
+        std::transform(arguments[1].begin(), arguments[1].end(), arguments[1].begin(), [](char c){ return std::tolower(c); });
+
+        // Attempts to Read Passed in File Arguments
+        std::ifstream file(arguments[2]);
+        if (!file.is_open()) {
+            std::cout << "Invalid File or Invalid File Path. Please ensure the file is reachable and has the correct path"; 
+            successful = false;
+        }
+        
+        // Builds Graph and Creates File Content String
+        Graph inputTsv(file);
+
+        // Algorithm Helper Functions
+        if (arguments[1] == "pagerank") {
+            successful = pageRankExecution(arguments, argc, inputTsv);
+        } else if (arguments[1] == "bfs") {
+            successful = BFSExecution(arguments, inputTsv);
+        } else if (arguments[1] == "dijkstras") {
+            int temp = dijkstraExecution(arguments, argc, inputTsv);
+            if (temp == 2) return 0;
+            successful = temp;
+        } else {
+            // Arguments Didn't Match Any Algorithm Definition
+            successful = false;
+            std::cout << "Sorry, you have entered an invalid argument sequence! Please look at \'How to Build\' section on Github to learn more!\n";
+        }
     }
+
+    if (successful)
+        std::cout << "\nSuccess: Please Examine the Contents of the Outputs Folder in your Directory to find your Results!\n";
+    else
+        std::cout << "\nFailure: Please try again after adjusting your arguments!\n";
+
+    std::cout << "Ending Execution\n\n";
     return 0;
 }
+

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <numeric>
 #include <unordered_map>
+#include <vector>
 #include <algorithm>
 
 namespace ublas = boost::numeric::ublas;
@@ -75,9 +76,47 @@ namespace Alg {
     }
 
     // template <class G, class V>
-    void bfs(const Graph& graph, Vertex start) {
+    std::vector<std::pair<Edge *, std::string>> bfs(Graph graph, Vertex start) {
         //https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+        std::unordered_map<Vertex, int> vertexTracker;
+        vertexTracker[start] = 1;
+
+
+        std::vector<std::pair<Edge *, std::string>> toReturnEdges;
+        toReturnEdges.reserve(30);
+        std::queue<Vertex> queue;
+
+        queue.push(start);
+        while(!queue.empty()) {
+            Vertex current = queue.front();
+            queue.pop();
+
+            std::vector<Edge * > adjacentEdges = graph.incidentEdges(current);
+
+            for (unsigned i = 0; i < adjacentEdges.size(); i++) {
+                std::cout << adjacentEdges[i]->source << " " << adjacentEdges[i]->destination << std::endl;
+
+                if (vertexTracker.find(adjacentEdges[i]->destination) == vertexTracker.end()) {
+                    
+                    toReturnEdges.push_back({adjacentEdges[i], "discovery"});
+                    queue.push(adjacentEdges[i]->destination);
+                    vertexTracker[adjacentEdges[i]->destination] = 1;
+                } else {
+          
+                    toReturnEdges.push_back({adjacentEdges[i], "cross"});
+
+
+                }
+            }
+
+
+
+
+        }
+
         std::cout << "\nBFS\n";
+
+        return toReturnEdges;
     }
 
     // template <class G>
