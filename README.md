@@ -115,15 +115,7 @@ The results from program execution will be stored in an `Outputs/` folder as a `
 Success: Please Examine the Contents of the Outputs Folder in your Directory to find your Results!
 Ending Execution
 
-// Contents of pagerank_result.txt
-
-Pagerank Algorithm for Wikipedia Dataset(http://snap.stanford.edu/data/wikispeedia.html):
-	United_States: 0.009565
-	France: 0.006445
-	Europe: 0.006352
-	United_Kingdom: 0.006247
-	English_language: 0.004875
-	Germany: 0.004836
+// Results written to pagerank_result.txt
 ```
 
 ```
@@ -135,17 +127,7 @@ Ending Execution
 Success: Please Examine the Contents of the Outputs Folder in your Directory to find your Results!
 Ending Execution
 
-// Contents of bfs_result.txt
-
-Graph Breadth-First Search Algorithm:
-Starting from: A
-	Step 0: A
-	Step 1: D
-	Step 2: G
-	Step 3: C
-	Step 4: B
-	Step 5: F
-End Step 6: E
+// Results written to bfs_result.txt
 ```
 
 ```
@@ -159,14 +141,7 @@ Please try again, using different Start and End Points!
 Success: Please Examine the Contents of the Outputs Folder in your Directory to find your Results!
 Ending Execution
 
-// Contents of dijkstras_result.txt
-
-Dijkstra's Shortest Path Algorithm:
-Starting from: Actuary	 Going to: ROT13
-	Step 0: Actuary to Mathematics
-	Step 1: Mathematics to Cryptography
-	Step 2: Cryptography to Caesar_cipher
-	Step 3: Caesar_cipher to ROT13
+// Results written to dijkstras_result.txt
 ```
 
 ```
@@ -175,13 +150,7 @@ Starting from: Actuary	 Going to: ROT13
 Success: Please Examine the Contents of the Outputs Folder in your Directory to find your Results!
 Ending Execution
 
-// Contents of dijkstras_result.txt
-
-Dijkstra's Shortest Path Algorithm:
-Starting from: D	 Going to: I
-	Step 0: D to E
-	Step 1: E to I
-
+// Results written to dijkstras_result.txt
 ```
 </details>
 
