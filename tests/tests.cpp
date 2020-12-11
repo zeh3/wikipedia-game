@@ -269,7 +269,7 @@ TEST_CASE("invalid paths", "[shortestPath]") {
     REQUIRE(no_path.size() == 0);
 }
 
-TEST_CASE("non-zero weighted path", "[shortestPath]") {
+TEST_CASE("non-zero weighted path in complex graph", "[shortestPath]") {
     ifstream file("tests/complex_graph_weights.tsv");
     Graph graph(file, true);
 
@@ -277,6 +277,24 @@ TEST_CASE("non-zero weighted path", "[shortestPath]") {
     vector<Edge> actual = Alg::shortest_path(graph, "A", "L");
     REQUIRE(actual == expected);
 
+}
+
+TEST_CASE("short path in complex graph", "[shortestPath]") {
+    ifstream file("tests/complex_graph_weights.tsv");
+    Graph graph(file, true);
+
+    vector<Edge> expected = {Edge("D", "C", 1)};
+    vector<Edge> actual = Alg::shortest_path(graph, "D", "C");
+    REQUIRE(actual == expected);
+}
+
+TEST_CASE("non-zero weighted path in disconnected graph") {
+    ifstream file("tests/disconnected_graph_weights.tsv");
+    Graph graph(file, true);
+
+    vector<Edge> expected = {Edge("E", "G", 2), Edge("G", "H", 1.5)};
+    vector<Edge> actual = Alg::shortest_path(graph, "E", "H");
+    REQUIRE(actual == expected);
 }
 
 // page rank tests
