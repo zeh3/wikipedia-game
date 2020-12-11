@@ -41,6 +41,7 @@ then cd into the newly made directory to be able to utilize the commands in the 
  
 Three main features are accessible within the project with a bit of customizability for each:
  1. The usage of Pagerank on any given .tsv file (although Pagerank won't make sense for a variety of datasets)
+ 	* PageRank implementation based on [CS357 content](https://courses.grainger.illinois.edu/cs357/fa2020/assets/lectures/complete-slides/13-Markov-Chains.pdf)
  2. The usage of BFS on any given .tsv file (i.e. a full traversal with cross sections can be returned for a valid file)
  3. The usage of Dijkstra's Algorithm to find the shortest "article path" between two given articles. This basically returns
     a path (given that it exists) of articles that if visited in order will take you from the starting article to the ending article.
