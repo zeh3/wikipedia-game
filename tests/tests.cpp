@@ -114,6 +114,11 @@ TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][ve
     }
 }
 
+TEST_CASE("hey"){
+    //hey Lou
+    REQUIRE(true);
+}
+
 TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
