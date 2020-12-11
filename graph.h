@@ -33,10 +33,10 @@ class Graph {
         Graph(std::ifstream& fileStream, bool weighted = false);        
         Graph(const Graph &other);
         ~Graph();
-
+        void _clear();
 
         Graph & operator=(const Graph & other);
-        bool operator==(const Graph & other);
+        bool operator==(const Graph & other) const;
         void createAdjMat();
         void printAdjMat();
 

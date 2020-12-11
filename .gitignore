@@ -5,3 +5,4 @@ graph.o
 main
 main.o
 .nfs*
+Outputs/

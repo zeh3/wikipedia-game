@@ -2,6 +2,7 @@
 #include "algorithms.hpp"
 #include "graph.h"
 #include <cctype>
+#include <time.h>
 
 // Convert Char Array to String for Parsing Purposes
 std::vector<std::string> argsToStrings(int argCount, char *args[]) {
@@ -23,10 +24,10 @@ int defaultExecution(int argc, char * argv[]) {
     std::ifstream file("decoded_links.tsv");
     Graph defaultGraph(file);
 
-
+    srand(time(NULL));
     int rand1 = rand() % defaultGraph.vertexList.size();
     int rand2 = rand() % defaultGraph.vertexList.size();
-    while (rand2 == rand1) rand2 = rand() % defaultGraph.vertexList.size();
+    while (defaultGraph.vertexList.size() >= 1 && rand2 == rand1) rand2 = rand() % defaultGraph.vertexList.size();
     Vertex start = defaultGraph.vertexList[rand1]; // Pick Good Start and End Points Plz
     Vertex end = defaultGraph.vertexList[rand2];       
     
@@ -52,6 +53,10 @@ int defaultExecution(int argc, char * argv[]) {
     // Dijkstra's Output String Build Section
     defaultMessage += "\n\n\tDijkstra's Shortest Path Algorithm: \n\t\tStarting from: " + start + "\t Going to: " + end + "\n";
     unsigned counter = 0;
+    if (result_SP.size() == 0) {
+        std::cout << "\nThere appears to be no path from " << start << " to " << end << " within the graph.";
+        defaultMessage += "\nThere appears to be no path from " + start + " to " + end + " within the graph.";
+    }
     for(Edge edge : result_SP) {
         defaultMessage += "\t\t\tStep " + std::to_string(counter++) + ": " + edge.source + " to " + edge.destination + "\n";
     }

@@ -114,7 +114,27 @@ bool pr_comparison(vector<double> expected, vector<double> actual) {
     return true;
 }
 
+TEST_CASE("Equals operator", "[ruleof3]") {
+    Graph g1 = createBasicDisconnectedGraph();
+    Graph g2 = createBasicDisconnectedGraph();
+    Graph g3 = createMediumCircleGraph();
 
+    REQUIRE(g1 == g2);
+    REQUIRE(!(g2 == g3));
+}
+
+TEST_CASE("Copy constructor", "[ruleof3]") {
+    Graph g1 = createSimpleGraph();
+    Graph g2(g1);
+
+    REQUIRE(g1 == g2);
+}
+
+TEST_CASE("Assignment operator", "[ruleof3]") {
+    Graph g1 = createSimpleGraph();
+    Graph g2 = g1;
+    REQUIRE(g2 == createSimpleGraph());
+}
 
 TEST_CASE("simple graph insert vertices", "[defaultConstructor][insertVertex][vertexList][simpleGraph]") {
     Graph graph = createSimpleGraph();

@@ -78,6 +78,10 @@ Graph::Graph(const Graph & other) {
 }
 
 Graph::~Graph() {
+    _clear();
+}
+
+void Graph::_clear() {
     vert_to_ind.clear();
     vertexList.clear();
 
@@ -89,16 +93,17 @@ Graph::~Graph() {
 
 Graph & Graph::operator=(const Graph & other) {
     if (*this == other) return *this;
+    this->_clear();
     *this = Graph(other);
     return *this;
 }
 
-bool Graph::operator==(const Graph & other) {
+bool Graph::operator==(const Graph & other) const {
     unsigned size = other.adjacencyList.size();
     if (this->adjacencyList.size() != size) return false;
 
     for (auto entry : other.adjacencyList) {
-        auto thisList = this->adjacencyList[entry.first];
+        auto thisList = this->adjacencyList.at(entry.first);
         if (thisList.size() != entry.second.size()) return false;
         for (unsigned i = 0; i < entry.second.size(); i++) {
             if (entry.second[i]->source != thisList[i]->source 
