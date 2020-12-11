@@ -21,8 +21,6 @@ typedef std::string Vertex;
 * A --> B --> C
 */
 
-
-
 Graph createSimpleGraph() {
     Graph graph;
     graph.insertVertex("A");
@@ -296,16 +294,28 @@ TEST_CASE("non-zero weighted path in disconnected graph") {
     vector<Edge> actual = Alg::shortest_path(graph, "E", "H");
     REQUIRE(actual == expected);
 }
-
-// page rank tests
-
 TEST_CASE("Connected graph PageRank", "[pagerank]") {
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
 
-    vector<Vertex> expected_verts = {"A", "B", "C", "D", "E", "F", "G"};
+    // vector<Vertex> expected_verts = {"A", "B", "C", "D", "E", "F", "G"};
     vector<double> expected_scores = {0.16309524, 0.16309524, 0.16309524, 0.16309524, 0.16309524, 0.16309524,
  0.02142857};
+
+    auto results = Alg::pagerank(graph);
+    vector<double> actual_scores;
+    std::transform(results.begin(), results.end(), std::back_inserter(actual_scores), [](auto pair) { return pair.second; });
+
+    REQUIRE(pr_comparison(actual_scores, expected_scores) == true);
+}
+
+TEST_CASE("Disconnected graph PageRank", "[pagerank]") {
+    ifstream file("tests/disconnected_graph.tsv");
+    Graph graph(file);
+
+    // vector<Vertex> expected_verts = {"A", "B", "C", "D", "E", "F", "G", "H"};
+    vector<double> expected_scores = {0.27403041, 0.26382188, 0.1430203 , 0.1430203 , 0.07028836,
+        0.04402678, 0.03089598, 0.03089598};
 
     auto results = Alg::pagerank(graph);
     vector<double> actual_scores;

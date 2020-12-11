@@ -9,7 +9,7 @@ using std::cout;
 using std::endl;
 
 int main(int argc, char *argv[]) {
-    std::ifstream file("tests/connected_graph.tsv");
+    std::ifstream file("tests/disconnected_graph.tsv");
     Graph graph(file);
     graph.printAdjMat();
 
