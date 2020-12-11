@@ -16,6 +16,7 @@ namespace ublas = boost::numeric::ublas;
 class Graph {
 
     public:
+    Graph() {}
         struct Edge {
             Vertex source;
             Vertex destination;

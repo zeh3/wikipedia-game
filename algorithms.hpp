@@ -76,14 +76,17 @@ namespace Alg {
     }
 
     // template <class G, class V>
-    std::vector<std::pair<Edge *, std::string>> bfs(Graph graph, Vertex start) {
+    std::vector<Vertex> bfs(Graph graph, Vertex start) {
         //https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+
+
         std::unordered_map<Vertex, int> vertexTracker;
         vertexTracker[start] = 1;
 
 
-        std::vector<std::pair<Edge *, std::string>> toReturnEdges;
-        toReturnEdges.reserve(30);
+        std::vector<Vertex> toReturnEdges;
+        toReturnEdges.push_back(start);
+        //toReturnEdges.reserve(30);
         std::queue<Vertex> queue;
 
         queue.push(start);
@@ -98,20 +101,46 @@ namespace Alg {
 
                 if (vertexTracker.find(adjacentEdges[i]->destination) == vertexTracker.end()) {
                     
-                    toReturnEdges.push_back({adjacentEdges[i], "discovery"});
+                    toReturnEdges.push_back(adjacentEdges[i]->destination);
                     queue.push(adjacentEdges[i]->destination);
                     vertexTracker[adjacentEdges[i]->destination] = 1;
-                } else {
-          
-                    toReturnEdges.push_back({adjacentEdges[i], "cross"});
-
-
                 }
             }
 
 
 
 
+        }
+
+        for (unsigned i =0; i < graph.vertexList.size(); i++) {
+            if (vertexTracker.find(graph.vertexList[i]) == vertexTracker.end()) {
+                queue.push(graph.vertexList[i]);
+                vertexTracker[graph.vertexList[i]] = 1;
+                toReturnEdges.push_back(graph.vertexList[i]);
+
+
+                while(!queue.empty()) {
+                Vertex current = queue.front();
+                queue.pop();
+
+                std::vector<Edge * > adjacentEdges = graph.incidentEdges(current);
+
+                for (unsigned i = 0; i < adjacentEdges.size(); i++) {
+
+                    if (vertexTracker.find(adjacentEdges[i]->destination) == vertexTracker.end()) {
+                    
+                        toReturnEdges.push_back(adjacentEdges[i]->destination);
+                        queue.push(adjacentEdges[i]->destination);
+                        vertexTracker[adjacentEdges[i]->destination] = 1;
+                    }
+                }
+
+
+
+
+                }   
+
+            }
         }
 
         std::cout << "\nBFS\n";
