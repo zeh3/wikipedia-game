@@ -116,12 +116,8 @@ bool Graph::operator==(const Graph & other) const {
 
 // createAdjMat() must be called after all insertions are complete!
 void Graph::insertVertex(Vertex v) {
-    //adding to vertex list
     vert_to_ind[v] = vert_to_ind.size();
     vertexList.push_back(v);
-
-    //Could have problems later if we allow heavy mutation. refer to lab_ml's insertVertex()
-    //adding to adjacency list
     adjacencyList[v] = std::vector<Edge *>();
 }
 

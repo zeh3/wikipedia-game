@@ -18,12 +18,12 @@ Overall, we accomplished our goals.
 * #### Example results:
 ```
 // PageRank results; we found these results exceptionally interesting! The numbers represent the probability someone would land on that page from a random starting page
-        United_States: 0.009565
-		France: 0.006445
-		Europe: 0.006352
-		United_Kingdom: 0.006247
-		English_language: 0.004875
-		Germany: 0.004836
+        United_States: 0.956482%
+		France: 0.644452%
+		Europe: 0.635166%
+		United_Kingdom: 0.624720%
+		English_language: 0.487520%
+		Germany: 0.483599%
 ```
 ```
 // Dijkstra's result; source and destination are randomized

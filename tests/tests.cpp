@@ -14,6 +14,7 @@ using std::cout;
 using std::endl;
 using boost::numeric::ublas::matrix;
 using Edge = Graph::Edge;
+
 typedef std::string Vertex;
 
 /*
@@ -28,10 +29,9 @@ Graph createSimpleGraph() {
     graph.insertVertex("C");
 
     graph.insertEdge("A", "B");
-
     graph.insertEdge("B", "C");
+
     graph.createAdjMat();
-    // graph.printAdjMat();
 
     return graph;
 }
@@ -53,20 +53,13 @@ Graph createBasicDisconnectedGraph() {
     graph.insertEdge("A","C");
     graph.insertEdge("B","C");
     graph.insertEdge("B","D");
-
-
     graph.insertEdge("E","F");
     graph.insertEdge("F","G");
     graph.insertEdge("G","H");
+
     graph.createAdjMat();
 
-
-
     return graph;
-
-
-
-
 }
 
 Graph createMediumCircleGraph() {
@@ -88,12 +81,9 @@ Graph createMediumCircleGraph() {
     graph.insertEdge("F", "G");
     graph.insertEdge("G", "H");
 
-
     graph.createAdjMat();
 
     return graph;
-
-
 }
 
 
@@ -173,8 +163,8 @@ TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][i
      REQUIRE(mat.size1() == 3);
      REQUIRE(mat.size2() == 3);
 
-
      auto v = graph.vertexList;
+
      size_t AIndex = std::find(v.begin(), v.end(), "A") - v.begin();
      auto BIndex = std::find(v.begin(), v.end(), "B") - v.begin();
      auto CIndex = std::find(v.begin(), v.end(), "C") - v.begin();
@@ -213,20 +203,24 @@ TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][ve
 TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
+
     // verify that everything is adjacent to center vertex
     vector<string> others = {"A", "B", "C", "D", "F", "G"};
     for (auto label : others) {
         REQUIRE(graph.areAdjacent("E", label));
     }
+
     auto i = graph.incidentEdges("E");
     vector<string> destinations;
     for (Edge* e : i) {
         REQUIRE((e->source) == "E");
         destinations.push_back((e->destination));
     }
+
     for (auto label: others) {
         REQUIRE(std::count(destinations.begin(), destinations.end(), label) == 1);
     }
+
     // check (some of) the outer vertexes
     REQUIRE(graph.areAdjacent("F", "A"));
     REQUIRE(graph.areAdjacent("G", "C"));
@@ -238,10 +232,10 @@ TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][i
 }
 
 TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGraph][adjacencyMatrix]") {
-    int size = 7;
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
     auto actual = graph.adjacencyMatrix;
+    int size = 7;
 
     REQUIRE(actual.size1() == size);
     REQUIRE(actual.size2() == size);
@@ -289,6 +283,7 @@ TEST_CASE("unweighted graph constructor defaults to 1", "[ifstreamConstructor][a
     ifstream file("tests/disconnected_graph.tsv");
     Graph graph(file);
     auto adjList = graph.adjacencyList;
+
     for (auto pairs : adjList) {
         auto edges = pairs.second;
         for (Edge* e : edges) {
@@ -315,6 +310,7 @@ TEST_CASE("shortest path of 0s", "[shortestPath]") {
 
     vector<Edge> path = Alg::shortest_path(graph, "E", "F");
     double total_weight = 0;
+
     for (Edge e : path) {
         total_weight += e.weight;
     }
@@ -354,7 +350,6 @@ TEST_CASE("non-zero weighted path in complex graph", "[shortestPath]") {
     vector<Edge> expected = {Edge("A", "E", 1), Edge("E", "I", 0.5), Edge("I", "K", 0.5), Edge("K", "L", 1)};
     vector<Edge> actual = Alg::shortest_path(graph, "A", "L");
     REQUIRE(actual == expected);
-
 }
 
 TEST_CASE("short path in complex graph", "[shortestPath]") {
@@ -381,7 +376,7 @@ TEST_CASE("Connected graph PageRank", "[pagerank]") {
 
     // vector<Vertex> expected_verts = {"A", "B", "C", "D", "E", "F", "G"};
     vector<double> expected_scores = {0.16309524, 0.16309524, 0.16309524, 0.16309524, 0.16309524, 0.16309524,
- 0.02142857};
+                                      0.02142857};
 
     auto results = Alg::pagerank(graph);
     vector<double> actual_scores;
@@ -396,7 +391,7 @@ TEST_CASE("Disconnected graph PageRank", "[pagerank]") {
 
     // vector<Vertex> expected_verts = {"A", "B", "C", "D", "E", "F", "G", "H"};
     vector<double> expected_scores = {0.27403041, 0.26382188, 0.1430203 , 0.1430203 , 0.07028836,
-        0.04402678, 0.03089598, 0.03089598};
+                                      0.04402678, 0.03089598, 0.03089598};
 
     auto results = Alg::pagerank(graph);
     vector<double> actual_scores;
@@ -433,7 +428,6 @@ TEST_CASE("Test Circular BFS Traversal", "[BFS][defaultConstructor][connectedGra
     REQUIRE(result[5] == "F");
     REQUIRE(result[6] == "G");
     REQUIRE(result[7] == "H");
-
 }
 
 TEST_CASE("Test Basic Disconnected Graph", "[BFS][defaultConstructor][disconnectedGraph]") {
@@ -441,6 +435,7 @@ TEST_CASE("Test Basic Disconnected Graph", "[BFS][defaultConstructor][disconnect
 
     Vertex start = graph.vertexList[0];
     std::vector<Vertex> result = Alg::bfs(graph, start);
+
     REQUIRE(result[0] == "A");
     REQUIRE(result[1] == "C");
     REQUIRE(result[2] == "B");
@@ -450,10 +445,6 @@ TEST_CASE("Test Basic Disconnected Graph", "[BFS][defaultConstructor][disconnect
     REQUIRE(result[6] == "G");
     REQUIRE(result[7] == "H");
     REQUIRE(result[8] == "I");
-
-    
-
-
 }
 
 TEST_CASE("BFS with One vertex", "[BFS][defaultConstructor][connectedGraph]") {
@@ -465,7 +456,6 @@ TEST_CASE("BFS with One vertex", "[BFS][defaultConstructor][connectedGraph]") {
     std::vector<Vertex> result = Alg::bfs(graph, start);
 
     REQUIRE(result[0] == "A");
-
 }
 
 TEST_CASE("Disconnected BFS with input stream", "[BFS][ifStreamConstructor][disconnectedGraph]") {
@@ -473,10 +463,7 @@ TEST_CASE("Disconnected BFS with input stream", "[BFS][ifStreamConstructor][disc
     Graph graph(file);
 
     Vertex start = graph.vertexList[0];
-    
-        std::vector<Vertex> result = Alg::bfs(graph, start);
-
-
+    std::vector<Vertex> result = Alg::bfs(graph, start);
 
     REQUIRE(result[0] == "A");
     REQUIRE(result[1] == "B");
@@ -486,9 +473,6 @@ TEST_CASE("Disconnected BFS with input stream", "[BFS][ifStreamConstructor][disc
     REQUIRE(result[5] == "F");
     REQUIRE(result[6] == "G");
     REQUIRE(result[7] == "H");
-
-
-
 }
 
 TEST_CASE("complex BFS with input stream", "[BFS][ifStreamConstructor][disconnectedGraph]") {
@@ -496,11 +480,7 @@ TEST_CASE("complex BFS with input stream", "[BFS][ifStreamConstructor][disconnec
     Graph graph(file);
 
     Vertex start = graph.vertexList[0];
-    
-        std::vector<Vertex> result = Alg::bfs(graph, start);
-
-    
-
+    std::vector<Vertex> result = Alg::bfs(graph, start);
 
     REQUIRE(result[0] == "A");
     REQUIRE(result[1] == "E");
@@ -514,10 +494,6 @@ TEST_CASE("complex BFS with input stream", "[BFS][ifStreamConstructor][disconnec
     REQUIRE(result[9] == "F");
     REQUIRE(result[10] == "D");
     REQUIRE(result[11] == "G");
-
-
-
-
 }
 
 TEST_CASE("Test  Disconnected Graph starting in the middle of vertex List" , "[BFS][defaultConstructor][disconnectedGraph]") {
@@ -525,7 +501,6 @@ TEST_CASE("Test  Disconnected Graph starting in the middle of vertex List" , "[B
 
     Vertex start = graph.vertexList[4];
     std::vector<Vertex> result = Alg::bfs(graph, start);
-
 
     REQUIRE(result[0] == "E");
     REQUIRE(result[1] == "F");
@@ -536,5 +511,4 @@ TEST_CASE("Test  Disconnected Graph starting in the middle of vertex List" , "[B
     REQUIRE(result[6] == "B");
     REQUIRE(result[7] == "D");
     REQUIRE(result[8] == "I");
-
 }

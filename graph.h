@@ -54,5 +54,4 @@ class Graph {
         ublas::matrix<double> adjacencyMatrix;
         std::vector<Vertex> vertexList;
         std::unordered_map<Vertex, int> vert_to_ind;
-
 };
