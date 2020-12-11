@@ -80,13 +80,13 @@ Graph createMediumCircleGraph() {
     graph.insertVertex("G");
     graph.insertVertex("H");
 
-    // graph.insertEdge("A", "B");
-    // graph.insertEdge("B", "C");
-    // graph.insertEdge("C", "D");
-    // graph.insertEdge("D", "E");
-    // graph.insertEdge("E", "F");
-    // graph.insertEdge("F", "G");
-    // graph.insertEdge("G", "H");
+    graph.insertEdge("A", "B");
+    graph.insertEdge("B", "C");
+    graph.insertEdge("C", "D");
+    graph.insertEdge("D", "E");
+    graph.insertEdge("E", "F");
+    graph.insertEdge("F", "G");
+    graph.insertEdge("G", "H");
 
 
     graph.createAdjMat();
@@ -386,7 +386,7 @@ TEST_CASE("Disconnected graph PageRank", "[pagerank]") {
 }
 
 
-TEST_CASE("Test Circular BFS Traversal") {
+TEST_CASE("Test Circular BFS Traversal", "[BFS][defaultConstructor][connectedGraph]") {
     Graph graph = createMediumCircleGraph();
     Vertex start = graph.vertexList[0];
     std::vector<Vertex> result = Alg::bfs(graph, start);
@@ -402,7 +402,7 @@ TEST_CASE("Test Circular BFS Traversal") {
 
 }
 
-TEST_CASE("Test Basic Disconnected Graph") {
+TEST_CASE("Test Basic Disconnected Graph", "[BFS][defaultConstructor][disconnectedGraph]") {
     Graph graph = createBasicDisconnectedGraph();
 
     Vertex start = graph.vertexList[0];
@@ -422,7 +422,7 @@ TEST_CASE("Test Basic Disconnected Graph") {
 
 }
 
-TEST_CASE("BFS with One vertex") {
+TEST_CASE("BFS with One vertex", "[BFS][defaultConstructor][connectedGraph]") {
     Graph graph;
     graph.insertVertex("A");
     graph.createAdjMat();
@@ -434,7 +434,7 @@ TEST_CASE("BFS with One vertex") {
 
 }
 
-TEST_CASE("Disconnected BFS with input stream") {
+TEST_CASE("Disconnected BFS with input stream", "[BFS][ifStreamConstructor][disconnectedGraph]") {
     ifstream file("tests/disconnected_graph.tsv");
     Graph graph(file);
 
@@ -457,7 +457,7 @@ TEST_CASE("Disconnected BFS with input stream") {
 
 }
 
-TEST_CASE("complex BFS with input stream") {
+TEST_CASE("complex BFS with input stream", "[BFS][ifStreamConstructor][disconnectedGraph]") {
     ifstream file("tests/complex_graph.tsv");
     Graph graph(file);
 
@@ -486,7 +486,7 @@ TEST_CASE("complex BFS with input stream") {
 
 }
 
-TEST_CASE("Test  Disconnected Graph starting in the middle of vertex List") {
+TEST_CASE("Test  Disconnected Graph starting in the middle of vertex List" , "[BFS][defaultConstructor][disconnectedGraph]") {
     Graph graph = createBasicDisconnectedGraph();
 
     Vertex start = graph.vertexList[4];

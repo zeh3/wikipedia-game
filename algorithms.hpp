@@ -75,9 +75,74 @@ namespace Alg {
     }
 
     // template <class G, class V>
-    void bfs(const Graph& graph, Vertex start) {
+    std::vector<Vertex> bfs(Graph graph, Vertex start) {
         //https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
-        std::cout << "\nBFS\n";
+
+
+        std::unordered_map<Vertex, int> vertexTracker;
+        vertexTracker[start] = 1;
+
+
+        std::vector<Vertex> toReturnVertices;
+        toReturnVertices.push_back(start);
+        //toReturnEdges.reserve(30);
+        std::queue<Vertex> queue;
+
+        queue.push(start);
+        while(!queue.empty()) {
+            Vertex current = queue.front();
+            queue.pop();
+
+            std::vector<Edge * > adjacentEdges = graph.incidentEdges(current);
+
+            for (unsigned i = 0; i < adjacentEdges.size(); i++) {
+
+                if (vertexTracker.find(adjacentEdges[i]->destination) == vertexTracker.end()) {
+                    
+                    toReturnVertices.push_back(adjacentEdges[i]->destination);
+                    queue.push(adjacentEdges[i]->destination);
+                    vertexTracker[adjacentEdges[i]->destination] = 1;
+                }
+            }
+
+
+
+
+        }
+
+        for (unsigned i =0; i < graph.vertexList.size(); i++) {
+            if (vertexTracker.find(graph.vertexList[i]) == vertexTracker.end()) {
+                queue.push(graph.vertexList[i]);
+                vertexTracker[graph.vertexList[i]] = 1;
+                toReturnVertices.push_back(graph.vertexList[i]);
+
+
+                while(!queue.empty()) {
+                Vertex current = queue.front();
+                queue.pop();
+
+                std::vector<Edge * > adjacentEdges = graph.incidentEdges(current);
+
+                for (unsigned i = 0; i < adjacentEdges.size(); i++) {
+
+                    if (vertexTracker.find(adjacentEdges[i]->destination) == vertexTracker.end()) {
+                    
+                        toReturnVertices.push_back(adjacentEdges[i]->destination);
+                        queue.push(adjacentEdges[i]->destination);
+                        vertexTracker[adjacentEdges[i]->destination] = 1;
+                    }
+                }
+
+
+
+
+                }   
+
+            }
+        }
+
+
+        return toReturnVertices;
     }
 
     // template <class G>
