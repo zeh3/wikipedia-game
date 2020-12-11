@@ -22,8 +22,8 @@ int defaultExecution(int argc, char * argv[]) {
     // Create Wikipedia Article Graph
     std::ifstream file("decoded_links.tsv");
     Graph defaultGraph(file);
-    Vertex start = "Carrots"; // Pick Good Start and End Points Soon Plz
-    Vertex end = "Peas";        
+    Vertex start = "10th_century"; // Pick Good Start and End Points Soon Plz
+    Vertex end = "Europe";        
     
     std::string defaultMessage = "Default Algorithm Results: ";
 

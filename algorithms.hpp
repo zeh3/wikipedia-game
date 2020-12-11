@@ -106,9 +106,6 @@ namespace Alg {
                 }
             }
 
-
-
-
         }
 
         for (unsigned i =0; i < graph.vertexList.size(); i++) {
@@ -134,15 +131,10 @@ namespace Alg {
                     }
                 }
 
-
-
-
                 }   
 
             }
         }
-
-        std::cout << "\nBFS\n";
 
         return toReturnEdges;
     }

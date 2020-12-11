@@ -16,7 +16,7 @@ namespace ublas = boost::numeric::ublas;
 class Graph {
 
     public:
-    Graph() {}
+        Graph(){}
         struct Edge {
             Vertex source;
             Vertex destination;
@@ -30,7 +30,6 @@ class Graph {
             }
         };
         
-        Graph(){};
         Graph(std::ifstream& fileStream, bool weighted = false);        
         Graph(const Graph &other);
         ~Graph();
