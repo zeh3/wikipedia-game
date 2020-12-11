@@ -74,16 +74,19 @@ namespace Alg {
         return path;
         
     }
-
+    
     // template <class G, class V>
-    std::vector<std::pair<Edge *, std::string>> bfs(Graph graph, Vertex start) {
+    std::vector<Vertex> bfs(Graph graph, Vertex start) {
         //https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+
+
         std::unordered_map<Vertex, int> vertexTracker;
         vertexTracker[start] = 1;
 
 
-        std::vector<std::pair<Edge *, std::string>> toReturnEdges;
-        toReturnEdges.reserve(30);
+        std::vector<Vertex> toReturnVertices;
+        toReturnVertices.push_back(start);
+        //toReturnEdges.reserve(30);
         std::queue<Vertex> queue;
 
         queue.push(start);
@@ -94,18 +97,12 @@ namespace Alg {
             std::vector<Edge * > adjacentEdges = graph.incidentEdges(current);
 
             for (unsigned i = 0; i < adjacentEdges.size(); i++) {
-                std::cout << adjacentEdges[i]->source << " " << adjacentEdges[i]->destination << std::endl;
 
                 if (vertexTracker.find(adjacentEdges[i]->destination) == vertexTracker.end()) {
                     
-                    toReturnEdges.push_back({adjacentEdges[i], "discovery"});
+                    toReturnVertices.push_back(adjacentEdges[i]->destination);
                     queue.push(adjacentEdges[i]->destination);
                     vertexTracker[adjacentEdges[i]->destination] = 1;
-                } else {
-          
-                    toReturnEdges.push_back({adjacentEdges[i], "cross"});
-
-
                 }
             }
 
@@ -114,13 +111,40 @@ namespace Alg {
 
         }
 
-        std::cout << "\nBFS\n";
+        for (unsigned i =0; i < graph.vertexList.size(); i++) {
+            if (vertexTracker.find(graph.vertexList[i]) == vertexTracker.end()) {
+                queue.push(graph.vertexList[i]);
+                vertexTracker[graph.vertexList[i]] = 1;
+                toReturnVertices.push_back(graph.vertexList[i]);
 
-        return toReturnEdges;
+
+                while(!queue.empty()) {
+                Vertex current = queue.front();
+                queue.pop();
+
+                std::vector<Edge * > adjacentEdges = graph.incidentEdges(current);
+
+                for (unsigned i = 0; i < adjacentEdges.size(); i++) {
+
+                    if (vertexTracker.find(adjacentEdges[i]->destination) == vertexTracker.end()) {
+                    
+                        toReturnVertices.push_back(adjacentEdges[i]->destination);
+                        queue.push(adjacentEdges[i]->destination);
+                        vertexTracker[adjacentEdges[i]->destination] = 1;
+                    }
+                }
+
+                }   
+
+            }
+        }
+
+
+        return toReturnVertices;
     }
 
     // template <class G>
-    std::list<std::pair<Vertex, double>> pagerank(const Graph& graph,  double alpha, int iterations, double tolerance) {
+    std::list<std::pair<Vertex, double>> pagerank(const Graph& graph,  double alpha=0.85, int iterations=1000, double tolerance=1e-7) {
         //https://www.geeksforgeeks.org/page-rank-algorithm-implementation/
         std::list<std::pair<Vertex, double>> result;
         size_t n = graph.adjacencyList.size();
