@@ -355,6 +355,7 @@ TEST_CASE("non-zero weighted path in disconnected graph") {
     vector<Edge> actual = Alg::shortest_path(graph, "E", "H");
     REQUIRE(actual == expected);
 }
+
 TEST_CASE("Connected graph PageRank", "[pagerank]") {
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
@@ -385,6 +386,20 @@ TEST_CASE("Disconnected graph PageRank", "[pagerank]") {
     REQUIRE(pr_comparison(actual_scores, expected_scores) == true);
 }
 
+TEST_CASE("Complex graph PageRank", "[pagerank]") {
+    ifstream file("tests/complex_graph.tsv");
+    Graph graph(file);
+
+    // vector<Vertex> expected_verts = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"};
+    vector<double> expected_scores = {0.21098858, 0.15846934, 0.15011459, 0.10217013, 0.09473939,
+        0.06646371, 0.06348671, 0.05946397, 0.05660358, 0.0125, 0.0125, 0.0125};
+
+    auto results = Alg::pagerank(graph);
+    vector<double> actual_scores;
+    std::transform(results.begin(), results.end(), std::back_inserter(actual_scores), [](auto pair) { return pair.second; });
+
+    REQUIRE(pr_comparison(actual_scores, expected_scores) == true);
+}
 
 TEST_CASE("Test Circular BFS Traversal", "[BFS][defaultConstructor][connectedGraph]") {
     Graph graph = createMediumCircleGraph();
