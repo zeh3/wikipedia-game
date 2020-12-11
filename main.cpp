@@ -19,8 +19,9 @@ int main(int argc, char *argv[]) {
             return 0;
         }
         
-        // Builds Graph and Creates File Content String
-        Graph inputTsv(file);
+        // Builds Graph and determines if it is weighted or not        
+        bool weighted = argc >= 6 && arguments[1] == "dijkstras";
+        Graph inputTsv(file, weighted);
 
         // Algorithm Helper Functions
         if (arguments[1] == "pagerank") {

@@ -65,7 +65,7 @@ int defaultExecution(int argc, char * argv[]) {
     defaultMessage += "\n\n\tPagerank Algorithm for Wikipedia Dataset(http://snap.stanford.edu/data/wikispeedia.html):\n";
     unsigned top_articles = 20;
     for(std::pair<Vertex, double> entry : result_PR) {
-        defaultMessage += "\t\t" + entry.first + ": " + std::to_string(entry.second) + "\n";
+        defaultMessage += "\t\t" + entry.first + ": " + std::to_string(entry.second * 100) + "%\n";
         if (!--top_articles) break;
     }
 
@@ -95,7 +95,7 @@ int pageRankExecution(std::vector<std::string> arguments, int argc, Graph inputT
     // Grabs Top n-articles from the Pagerank results and adds them to the output file string
     unsigned top_articles = std::stoi(arguments[3]);
     for(std::pair<Vertex, double> entry : result) {
-        messageFile += "\t" + entry.first + ": " + std::to_string(entry.second) + "\n";
+        messageFile += "\t" + entry.first + ": " + std::to_string(entry.second * 100) + "%\n";
         if (!--top_articles) break;
     }
 
