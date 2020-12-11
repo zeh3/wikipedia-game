@@ -65,7 +65,7 @@ To clean the directory of any unwanted executibles and object files use the comm
 make clean
 ```
 
-There are 4 main commands that can be run after building the main executible from the main command:
+There are 4 main commands that can be run after building the main executable from the main command:
 ```bash
 ./main
 ./main dijkstras [file] [source] [dest]
@@ -109,7 +109,8 @@ The tests that will be run are located within the tests folder of the project, a
 <summary> <strong>Click to Expand</strong></summary>
 
 * #### Preprocessing and Test Generation
-  We used python to preprocess our dataset as well as generate our tests. For more information, please see the included Jupyter notebook, `graph_prep.ipynb` in /Documentation.
+  We used python to preprocess our dataset as well as generate some of our PageRank tests. For more information, please see the included Jupyter notebook, `graph_prep.ipynb` in /Documentation.
+  
 * #### Algorithms Namespace
 
   * Dijkstra's Shortest-Path Algorithm
