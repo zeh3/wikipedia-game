@@ -5,7 +5,11 @@
 #include <vector>
 #include "../algorithms.hpp"
 
-using std::string, std::vector, std::ifstream, std::cout, std::endl;
+using std::string;
+using std::vector;
+using std::ifstream; 
+using std::cout; 
+using std::endl;
 using boost::numeric::ublas::matrix;
 using Edge = Graph::Edge;
 typedef std::string Vertex;
