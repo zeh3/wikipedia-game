@@ -323,3 +323,123 @@ TEST_CASE("Disconnected graph PageRank", "[pagerank]") {
 
     REQUIRE(pr_comparison(actual_scores, expected_scores) == true);
 }
+
+
+TEST_CASE("Test Circular BFS Traversal") {
+    Graph graph = createMediumCircleGraph();
+    Vertex start = graph.vertexList[0];
+    std::vector<Vertex> result = Alg::bfs(graph, start);
+
+    REQUIRE(result[0] == "A");
+    REQUIRE(result[1] == "B");
+    REQUIRE(result[2] == "C");
+    REQUIRE(result[3] == "D");
+    REQUIRE(result[4] == "E");
+    REQUIRE(result[5] == "F");
+    REQUIRE(result[6] == "G");
+    REQUIRE(result[7] == "H");
+
+}
+
+TEST_CASE("Test Basic Disconnected Graph") {
+    Graph graph = createBasicDisconnectedGraph();
+
+    Vertex start = graph.vertexList[0];
+    std::vector<Vertex> result = Alg::bfs(graph, start);
+    REQUIRE(result[0] == "A");
+    REQUIRE(result[1] == "C");
+    REQUIRE(result[2] == "B");
+    REQUIRE(result[3] == "D");
+    REQUIRE(result[4] == "E");
+    REQUIRE(result[5] == "F");
+    REQUIRE(result[6] == "G");
+    REQUIRE(result[7] == "H");
+    REQUIRE(result[8] == "I");
+
+    
+
+
+}
+
+TEST_CASE("BFS with One vertex") {
+    Graph graph;
+    graph.insertVertex("A");
+    graph.createAdjMat();
+
+    Vertex start = graph.vertexList[0];
+    std::vector<Vertex> result = Alg::bfs(graph, start);
+
+    REQUIRE(result[0] == "A");
+
+}
+
+TEST_CASE("Disconnected BFS with input stream") {
+    ifstream file("tests/disconnected_graph.tsv");
+    Graph graph(file);
+
+    Vertex start = graph.vertexList[0];
+    
+        std::vector<Vertex> result = Alg::bfs(graph, start);
+
+
+
+    REQUIRE(result[0] == "A");
+    REQUIRE(result[1] == "B");
+    REQUIRE(result[2] == "C");
+    REQUIRE(result[3] == "D");
+    REQUIRE(result[4] == "E");
+    REQUIRE(result[5] == "F");
+    REQUIRE(result[6] == "G");
+    REQUIRE(result[7] == "H");
+
+
+
+}
+
+TEST_CASE("complex BFS with input stream") {
+    ifstream file("tests/complex_graph.tsv");
+    Graph graph(file);
+
+    Vertex start = graph.vertexList[0];
+    
+        std::vector<Vertex> result = Alg::bfs(graph, start);
+
+    
+
+
+    REQUIRE(result[0] == "A");
+    REQUIRE(result[1] == "E");
+    REQUIRE(result[2] == "K");
+    REQUIRE(result[3] == "J");
+    REQUIRE(result[4] == "C");
+    REQUIRE(result[5] == "I");
+    REQUIRE(result[6] == "H");
+    REQUIRE(result[7] == "L");
+    REQUIRE(result[8] == "B");
+    REQUIRE(result[9] == "F");
+    REQUIRE(result[10] == "D");
+    REQUIRE(result[11] == "G");
+
+
+
+
+}
+
+TEST_CASE("Test  Disconnected Graph starting in the middle of vertex List") {
+    Graph graph = createBasicDisconnectedGraph();
+
+    Vertex start = graph.vertexList[4];
+    std::vector<Vertex> result = Alg::bfs(graph, start);
+
+
+    REQUIRE(result[0] == "E");
+    REQUIRE(result[1] == "F");
+    REQUIRE(result[2] == "G");
+    REQUIRE(result[3] == "H");
+    REQUIRE(result[4] == "A");
+    REQUIRE(result[5] == "C");
+    REQUIRE(result[6] == "B");
+    REQUIRE(result[7] == "D");
+    REQUIRE(result[8] == "I");
+
+}
