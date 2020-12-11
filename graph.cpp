@@ -2,9 +2,31 @@
 #include <iostream>
 #include <iomanip>
 
-Graph::Graph(std::ifstream& fileStream) {
+Graph::Graph(std::ifstream& fileStream, bool weighted) {
     Vertex V1, V2;
-    while(!fileStream.eof()) {
+    if (weighted) {
+        std::string weightString;
+        while(!fileStream.eof()) {
+        std::getline(fileStream, V1, '\t');
+        std::getline(fileStream, V2, '\t');
+        std::getline(fileStream, weightString, '\n');
+        double weight = std::stod(weightString);
+        
+        if (vert_to_ind.find(V1) == vert_to_ind.end()) { 
+            vert_to_ind[V1] = vert_to_ind.size();
+            vertexList.push_back(V1);
+        }
+
+        adjacencyList[V1].push_back(new Graph::Edge(V1, V2, weight));
+        
+        if (adjacencyList.find(V2) == adjacencyList.end()) { 
+            adjacencyList[V2] = std::vector<Graph::Edge *>();
+            vert_to_ind.insert(std::make_pair(V2, vert_to_ind.size()));
+            vertexList.push_back(V2);
+        }
+    }
+    } else {
+        while(!fileStream.eof()) {
         std::getline(fileStream, V1, '\t');
         std::getline(fileStream, V2, '\n');
         
@@ -20,6 +42,7 @@ Graph::Graph(std::ifstream& fileStream) {
             vert_to_ind.insert(std::make_pair(V2, vert_to_ind.size()));
             vertexList.push_back(V2);
         }
+    }
     }
     
     createAdjMat();
@@ -103,8 +126,8 @@ void Graph::insertEdge(Vertex v1, Vertex v2) {
     edges.insert(edges.begin(), new Edge(v1, v2));
 }
 
-std::vector<Graph::Edge*> Graph::incidentEdges(Vertex v) {
-    std::vector<Graph::Edge*> incidentEdges = adjacencyList[v];
+std::vector<Graph::Edge*> Graph::incidentEdges(Vertex v) const {
+    std::vector<Graph::Edge*> incidentEdges = adjacencyList.at(v);
     return incidentEdges;
 }
 

@@ -8,22 +8,71 @@
 #include <numeric>
 #include <unordered_map>
 #include <vector>
+#include <algorithm>
 
 namespace ublas = boost::numeric::ublas;
-#include <unordered_map>
-#include <vector>
+using std::priority_queue;
 using Edge = Graph::Edge;
-
-
-// typedef std::string Vertex;
+using std::vector;
+using std::cout;
+using std::endl;
+using std::pair;
+using std::string;
+using std::unordered_map;
+typedef std::string Vertex;
 
 /* If we don't want to have this templated that's fine too, we will likely just use vertices instead of ints like Geeks for Geeks did */ 
 /* Might not be easily doable without explicity using Vertex and such anyways! */
 
 namespace Alg {
-    void shortest_path(const Graph& path, Vertex start, Vertex end) {
+    vector<Edge> shortest_path(const Graph& graph, Vertex start, Vertex end) {
         //https://www.geeksforgeeks.org/c-program-for-dijkstras-shortest-path-algorithm-greedy-algo-7/
-        std::cout << "\nShortest_Path:\n";
+        // set up priority queue
+        auto comparison = [](pair<Vertex, double> lhs, pair<Vertex, double> rhs) { return lhs.second > rhs.second; };
+        priority_queue<pair<Vertex, double>, vector<pair<Vertex, double>>, decltype(comparison) > pq(comparison);
+        pq.push({start, 0});
+
+        // set up distance map
+
+        unordered_map<Vertex, double> dist;
+        unordered_map<Vertex, Edge> prev;
+        dist[start] = 0;
+        vector<Vertex> vertexes = graph.vertexList;
+        for (Vertex v : vertexes) {
+            if (v != start) {
+                dist[v] = INFINITY;
+            }
+        }
+
+        // algorithm time
+
+        while (!pq.empty()) {
+            Vertex current = pq.top().first;
+            if (current == end) {
+                break;
+            }
+            pq.pop();
+            vector<Edge*> adj = graph.incidentEdges(current);
+            for (Edge* e : adj) {
+                Vertex next = e->destination;
+                if (dist[next] > dist[current] + e->weight) {
+                    dist[next] = dist[current] + e->weight;
+                    pq.push({next, dist[next]});
+                    prev[next] = *e;
+                }
+            }
+        }
+        // reconstruct path
+        vector<Edge> path;
+        Vertex current = end;
+        while (prev.count(current) != 0) {
+            path.push_back(prev[current]); // can't just insert at the beginning bc weird constructor error
+            current = prev[current].source;
+        }
+        std::reverse(path.begin(), path.end()); // so i just reversed the list later
+        
+        return path;
+        
     }
 
     // template <class G, class V>
