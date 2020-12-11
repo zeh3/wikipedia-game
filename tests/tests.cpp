@@ -69,6 +69,34 @@ Graph createBasicDisconnectedGraph() {
 
 }
 
+Graph createMediumCircleGraph() {
+    Graph graph;
+    graph.insertVertex("A");
+    graph.insertVertex("B");
+    graph.insertVertex("C");
+    graph.insertVertex("D");
+    graph.insertVertex("E");
+    graph.insertVertex("F");
+    graph.insertVertex("G");
+    graph.insertVertex("H");
+
+    // graph.insertEdge("A", "B");
+    // graph.insertEdge("B", "C");
+    // graph.insertEdge("C", "D");
+    // graph.insertEdge("D", "E");
+    // graph.insertEdge("E", "F");
+    // graph.insertEdge("F", "G");
+    // graph.insertEdge("G", "H");
+
+
+    graph.createAdjMat();
+
+    return graph;
+
+
+}
+
+
 // for checking adjacency matrix things
 int transformCoordinates(int x, int y, int size) {
     return size * y + x;
