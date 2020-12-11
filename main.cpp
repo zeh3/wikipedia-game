@@ -14,9 +14,9 @@ int main(int argc, char *argv[]) {
 
         // Attempts to Read Passed in File Arguments
         std::ifstream file(arguments[2]);
-        if (!file.is_open()) {
-            std::cout << "Invalid File or Invalid File Path. Please ensure the file is reachable and has the correct path"; 
-            successful = false;
+        if (!file.is_open() || !file.good()) {
+            std::cout << "Invalid File or Invalid File Path. Please ensure the file is reachable and has the correct path. Ending Execution." << std::endl;
+            return 0;
         }
         
         // Builds Graph and Creates File Content String

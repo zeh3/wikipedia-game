@@ -96,7 +96,7 @@ int pageRankExecution(std::vector<std::string> arguments, int argc, Graph inputT
     unsigned top_articles = std::stoi(arguments[3]);
     for(std::pair<Vertex, double> entry : result) {
         messageFile += "\t" + entry.first + ": " + std::to_string(entry.second) + "\n";
-        if (!top_articles--) break;
+        if (!--top_articles) break;
     }
 
     // Printing to File

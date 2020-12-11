@@ -33,7 +33,7 @@ graph.o: graph.h graph.cpp
 .PHONY : output_msg
 
 clean : 
-	-rm -f *.o $(EXE) test
+	-rm -f *.o $(EXE) test ./Outputs/*
 
 # Custom Clang version enforcement Makefile rule:
 ccred=$(shell echo -e "\033[0;31m")

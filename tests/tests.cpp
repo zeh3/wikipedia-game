@@ -200,7 +200,6 @@ TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][i
 TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][vertexList][connectedGraph]") {
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
-    cout << "done with graph" << endl;
     auto v = graph.vertexList;
     vector<string> actualLabels = {"A", "B", "C", "D", "E", "F", "G"};
 
