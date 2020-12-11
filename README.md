@@ -174,7 +174,7 @@ The tests that will be run are located within the tests folder of the project, a
 <summary> <strong>Click to Expand</strong></summary>
 
 * #### Preprocessing and Test Generation
-  We used python to preprocess our dataset as well as generate some of our PageRank tests. For more information, please see the included Jupyter notebook, `graph_prep.ipynb` in /Documentation.
+  We used python to preprocess our dataset as well as generate some of our PageRank tests. For more information, please see the included Jupyter notebook, `graph_prep.ipynb` in the root folder.
   
 * #### Algorithms Namespace
 
