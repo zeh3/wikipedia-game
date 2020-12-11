@@ -28,6 +28,11 @@ int main(int argc, char *argv[]) {
         } else if (arguments[1] == "bfs") {
             successful = BFSExecution(arguments, inputTsv);
         } else if (arguments[1] == "dijkstras") {
+            if (arguments[3] == arguments[4]) {
+                std::cout << "\nSorry, it appears as though the Start and End points are the same. The path in this case is empty.";
+                std::cout << "\nPlease Pick Another Starting and Ending point and try again!\n";
+                return 0;
+            }
             int temp = dijkstraExecution(arguments, argc, inputTsv);
             if (temp == 2) return 0;
             successful = temp;

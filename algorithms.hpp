@@ -103,8 +103,6 @@ namespace Alg {
                     toReturnEdges.push_back(adjacentEdges[i]->destination);
                     queue.push(adjacentEdges[i]->destination);
                     vertexTracker[adjacentEdges[i]->destination] = 1;
-<<<<<<< HEAD
-=======
                 }
             }
 
@@ -134,45 +132,16 @@ namespace Alg {
                         queue.push(adjacentEdges[i]->destination);
                         vertexTracker[adjacentEdges[i]->destination] = 1;
                     }
->>>>>>> 6bc1399937a7074968882a8b4a8c50750d71abff
                 }
 
-        }
-
-        for (unsigned i =0; i < graph.vertexList.size(); i++) {
-            if (vertexTracker.find(graph.vertexList[i]) == vertexTracker.end()) {
-                queue.push(graph.vertexList[i]);
-                vertexTracker[graph.vertexList[i]] = 1;
-                toReturnEdges.push_back(graph.vertexList[i]);
 
 
-                while(!queue.empty()) {
-                Vertex current = queue.front();
-                queue.pop();
-
-<<<<<<< HEAD
-                std::vector<Edge * > adjacentEdges = graph.incidentEdges(current);
-=======
-                }   
-
-            }
-        }
->>>>>>> 6bc1399937a7074968882a8b4a8c50750d71abff
-
-                for (unsigned i = 0; i < adjacentEdges.size(); i++) {
-
-                    if (vertexTracker.find(adjacentEdges[i]->destination) == vertexTracker.end()) {
-                    
-                        toReturnEdges.push_back(adjacentEdges[i]->destination);
-                        queue.push(adjacentEdges[i]->destination);
-                        vertexTracker[adjacentEdges[i]->destination] = 1;
-                    }
-                }
 
                 }   
 
             }
         }
+
 
         return toReturnEdges;
     }
