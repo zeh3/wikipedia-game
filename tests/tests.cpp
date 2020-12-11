@@ -66,6 +66,7 @@ TEST_CASE("simple graph adjacencies correct", "[defaultConstructor][insertVertex
     
 TEST_CASE("simple graph adjacency matrix", "[defaultConstructor][insertVertex][insertEdge][simpleGraph][adjacencyMatrix][vertexList]") {
      Graph graph = createSimpleGraph();
+
      matrix<double> mat = graph.adjacencyMatrix;
      //size
      REQUIRE(mat.size1() == 3);
@@ -168,9 +169,10 @@ TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGr
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
     auto actual = graph.adjacencyMatrix;
+
     REQUIRE(actual.size1() == size);
     REQUIRE(actual.size2() == size);
-    REQUIRE (sizeof(actual) / sizeof(actual[0]) == (size * size));
+
     /*vector<vector<double>> expected = { {0, 0, 0, 0.5, 0, 0, 0}, {0, 0, 0, 0, 0, .5, 0}, 
     {0, 0.5, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0.5}, {0.5, 0.5, 0.5, 0.5, 0, 0.5, 0.5},
     {0.5, 0, 0, 0, 0, 0, 0}, {0, 0, 0.5, 0, 0, 0, 0}};*/
@@ -206,8 +208,6 @@ TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGr
     REQUIRE(actual(E, C) == 0);
     REQUIRE(actual(E, B) == 0);
     REQUIRE(actual(E, F) == 0);
-
-
 }
 
 // dijkstra's
