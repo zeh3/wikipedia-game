@@ -9,9 +9,9 @@ using std::cout;
 using std::endl;
 
 int main(int argc, char *argv[]) {
-    std::ifstream file("decoded_links.tsv");
+    std::ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
-    // graph.printAdjMat();
+    graph.printAdjMat();
 
     vector<Vertex> vertexes = graph.vertexList;
     srand(time(NULL));
@@ -25,11 +25,11 @@ int main(int argc, char *argv[]) {
     cout << end << endl;
 
     Alg::bfs(graph, start);
-    auto result = Alg::pagerank(graph, 0.85, 1000, 1e-5);
+    auto result = Alg::pagerank(graph, 0.85, 1000, 1e-7);
     int count = 0;
     for(auto entry : result) {
         count++;
-        std::cout << entry.first + ": " << entry.second << std::endl;
+        cout << entry.first + ": " << entry.second << endl;
         if(count > 10) break;
     }
     return 0;

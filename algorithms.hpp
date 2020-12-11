@@ -81,7 +81,7 @@ namespace Alg {
     }
 
     // template <class G>
-    std::list<std::pair<Vertex, double>> pagerank(const Graph& graph,  double alpha, int iterations, double tolerance) {
+    std::list<std::pair<Vertex, double>> pagerank(const Graph& graph,  double alpha=0.85, int iterations=1000, double tolerance=1e-7) {
         //https://www.geeksforgeeks.org/page-rank-algorithm-implementation/
         std::list<std::pair<Vertex, double>> result;
         size_t n = graph.adjacencyList.size();

@@ -3,6 +3,8 @@
 #include "../graph.h"
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <iterator>
 #include "../algorithms.hpp"
 
 using std::string;
@@ -18,6 +20,8 @@ typedef std::string Vertex;
 * the graph for the following test cases looks like this:
 * A --> B --> C
 */
+
+
 
 Graph createSimpleGraph() {
     Graph graph;
@@ -38,6 +42,20 @@ Graph createSimpleGraph() {
 int transformCoordinates(int x, int y, int size) {
     return size * y + x;
 }
+
+bool tolerable(double expected, double actual) {
+    return std::fabs(expected - actual) < FLT_EPSILON;
+}
+
+bool pr_comparison(vector<double> expected, vector<double> actual) {
+    if(expected.size() != actual.size()) return false;
+    for(auto it1 = expected.begin(), it2 = actual.begin(); it1 != expected.end() && it2 != actual.end(); it1++, it2++) {
+        if(!tolerable(*it1, *it2)) return false;
+    }
+    return true;
+}
+
+
 
 TEST_CASE("simple graph insert vertices", "[defaultConstructor][insertVertex][vertexList][simpleGraph]") {
     Graph graph = createSimpleGraph();
@@ -112,11 +130,6 @@ TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][ve
     for (Vertex label : actualLabels) {
         REQUIRE(std::count(v.begin(), v.end(), label) == 1);
     }
-}
-
-TEST_CASE("hey"){
-    //hey Lou
-    REQUIRE(true);
 }
 
 TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
@@ -263,4 +276,22 @@ TEST_CASE("non-zero weighted path", "[shortestPath]") {
     vector<Edge> expected = {Edge("A", "E", 1), Edge("E", "I", 0.5), Edge("I", "K", 0.5), Edge("K", "L", 1)};
     vector<Edge> actual = Alg::shortest_path(graph, "A", "L");
     REQUIRE(actual == expected);
+
+}
+
+// page rank tests
+
+TEST_CASE("Connected graph PageRank", "[pagerank]") {
+    ifstream file("tests/connected_graph.tsv");
+    Graph graph(file);
+
+    vector<Vertex> expected_verts = {"A", "B", "C", "D", "E", "F", "G"};
+    vector<double> expected_scores = {0.16309524, 0.16309524, 0.16309524, 0.16309524, 0.16309524, 0.16309524,
+ 0.02142857};
+
+    auto results = Alg::pagerank(graph);
+    vector<double> actual_scores;
+    std::transform(results.begin(), results.end(), std::back_inserter(actual_scores), [](auto pair) { return pair.second; });
+
+    REQUIRE(pr_comparison(actual_scores, expected_scores) == true);
 }
