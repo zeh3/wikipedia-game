@@ -36,7 +36,7 @@ Graph createSimpleGraph() {
 
     return graph;
 }
-Graph createMediumGraph() {
+Graph createMediumCircleGraph() {
     Graph graph;
     graph.insertVertex("A");
     graph.insertVertex("B");
@@ -47,18 +47,51 @@ Graph createMediumGraph() {
     graph.insertVertex("G");
     graph.insertVertex("H");
 
-    graph.insertEdge("A", "B");
-    graph.insertEdge("B", "C");
-    graph.insertEdge("C", "D");
-    graph.insertEdge("E", "F");
-    graph.insertEdge("G", "H");
-    graph.insertEdge("H", "A");
-    graph.insertEdge("A", "D");
-    graph.insertEdge("H", "C");
-    graph.insertEdge("B", "F");
-    graph.insertEdge("A", "E");
+    // graph.insertEdge("A", "B");
+    // graph.insertEdge("B", "C");
+    // graph.insertEdge("C", "D");
+    // graph.insertEdge("D", "E");
+    // graph.insertEdge("E", "F");
+    // graph.insertEdge("F", "G");
+    // graph.insertEdge("G", "H");
+
+
+    graph.createAdjMat();
 
     return graph;
+
+
+}
+
+Graph createBasicDisconnectedGraph() {
+    Graph graph;
+
+    graph.insertVertex("A");
+    graph.insertVertex("B");
+    graph.insertVertex("C");
+    graph.insertVertex("D");
+    graph.insertVertex("E");
+    graph.insertVertex("F");
+    graph.insertVertex("G");
+    graph.insertVertex("H");
+    graph.insertVertex("I");
+
+    graph.insertEdge("A","B");
+    graph.insertEdge("A","C");
+    graph.insertEdge("B","C");
+    graph.insertEdge("B","D");
+
+
+    graph.insertEdge("E","F");
+    graph.insertEdge("F","G");
+    graph.insertEdge("G","H");
+    graph.createAdjMat();
+
+
+
+    return graph;
+
+
 
 
 }
@@ -202,27 +235,51 @@ TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGr
 
 }
 */
-TEST_CASE("basic bfs test") {
-    Graph graph = createMediumGraph();
+TEST_CASE("Test Circular BFS Traversal") {
+    Graph graph = createMediumCircleGraph();
     Vertex start = graph.vertexList[0];
-    std::vector<std::pair<Edge *, std::string>> result = Alg::bfs(graph, start);
+    std::vector<Vertex> result = Alg::bfs(graph, start);
 
-    for (unsigned i = 0; i < result.size(); i++) {
-        std::cout << result[i].first->source << " " << result[i].first->destination << " " <<result[i].second << std::endl;
-    }
+    REQUIRE(result[0] == "A");
+    REQUIRE(result[1] == "B");
+    REQUIRE(result[2] == "C");
+    REQUIRE(result[3] == "D");
+    REQUIRE(result[4] == "E");
+    REQUIRE(result[5] == "F");
+    REQUIRE(result[6] == "G");
+    REQUIRE(result[7] == "H");
 
-    std::unordered_map<Vertex, int> vertexTracker;
-
-   for (unsigned i = 0; i < result.size(); i++) {
-        if (vertexTracker.find(result[i].first->destination) != vertexTracker.end()) {
-            REQUIRE(result[i].second == "cross");
-        } else {
-            REQUIRE(result[i].second == "discovery");
-
-        }
-
-       vertexTracker[result[i].first->source] = 1;
-       vertexTracker[result[i].first->destination] = 1;
-
-   }
 }
+
+TEST_CASE("Test Basic Disconnected Graph") {
+    Graph graph = createBasicDisconnectedGraph();
+
+    Vertex start = graph.vertexList[0];
+    std::vector<Vertex> result = Alg::bfs(graph, start);
+    REQUIRE(result[0] == "A");
+    REQUIRE(result[1] == "C");
+    REQUIRE(result[2] == "B");
+    REQUIRE(result[3] == "D");
+    REQUIRE(result[4] == "E");
+    REQUIRE(result[5] == "F");
+    REQUIRE(result[6] == "G");
+    REQUIRE(result[7] == "H");
+    REQUIRE(result[8] == "I");
+
+    
+
+
+}
+
+TEST_CASE("BFS with One vertex") {
+    Graph graph;
+    graph.insertVertex("A");
+    graph.createAdjMat();
+
+    Vertex start = graph.vertexList[0];
+    std::vector<Vertex> result = Alg::bfs(graph, start);
+
+    REQUIRE(result[0] == "A");
+
+}
+
