@@ -72,7 +72,7 @@ There are 4 main commands that can be run after building the main executable fro
 ./main pagerank [file] [top]
 ./main bfs [file] [start]
 ```
-The command `./main` will default to running all 3 algorithms with the provided defaults to display the full program's functionalities and takes no arguments.
+The command `./main` will default to running all 3 algorithms with the randomized arguments to display the full program's functionalities and takes no arguments.
 
 The command `./main dijkstras [file] [source] [dest]` will run the shortest-path algorithm (Dijkstra's algorithm) only given the required arguments in order of `[file]` which is the .tsv dataset, `[source]` which is a string of the starting article (i.e. "United States" is a valid source for the default .tsv since it is an article name), and finally `[dest]` which is a string of the ending article (similar to the starting article in requirements). This will return the article path from the `[source]` article to the `[dest]` article;
 
@@ -85,6 +85,71 @@ The results from program execution will be stored in an `Outputs/` folder as a `
 * Note: Ensure that the arguments for the commands are supplied in order with correct data types and also that the path to the file that you are passing in is correct and relative to your current working directory. If there are any problems (incorrect input), the program will terminate and not run. ***If an invalid filename has been selected, the program will enter an infinite loop***.
 
 * **Warning**: Running `valgrind --leak-check=full ./main` can take over 20minutes to run.
+
+<details>
+ <summary><strong>Examples</strong></summary>
+ 
+---
+```
+./main pagerank decoded_links.tsv 5
+Success: Please Examine the Contents of the Outputs Folder in your Directory to find your Results!
+Ending Execution
+
+// Contents of pagerank_result.txt
+
+Pagerank Algorithm for Wikipedia Dataset(http://snap.stanford.edu/data/wikispeedia.html):
+	United_States: 0.009565
+	France: 0.006445
+	Europe: 0.006352
+	United_Kingdom: 0.006247
+	English_language: 0.004875
+	Germany: 0.004836
+```
+
+```
+./main bfs ./tests/connected_graph.tsv Latin
+Invalid Start Article. Please ensure that this Article is within the Dataset!
+Ending Execution
+
+./main bfs ./tests/connected_graph.tsv A
+Success: Please Examine the Contents of the Outputs Folder in your Directory to find your Results!
+Ending Execution
+
+// Contents of bfs_result.txt
+
+Graph Breadth-First Search Algorithm:
+Starting from: A
+	Step 0: A
+	Step 1: D
+	Step 2: G
+	Step 3: C
+	Step 4: B
+	Step 5: F
+End Step 6: E
+```
+
+```
+./main dijkstras decoded_links.tsv Esox Blokus
+
+There appears to be no path from Esox to Blokus within the graph.
+Please try again, using different Start and End Points!
+
+./main dijkstras decoded_links.tsv Actuary ROT13
+
+Success: Please Examine the Contents of the Outputs Folder in your Directory to find your Results!
+Ending Execution
+
+// Contents of dijkstras_result.txt
+
+Dijkstra's Shortest Path Algorithm:
+Starting from: Actuary	 Going to: ROT13
+	Step 0: Actuary to Mathematics
+	Step 1: Mathematics to Cryptography
+	Step 2: Cryptography to Caesar_cipher
+	Step 3: Caesar_cipher to ROT13
+
+```
+</details>
 
 </details>
 
