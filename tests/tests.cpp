@@ -146,33 +146,6 @@ TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][i
     REQUIRE(graph.incidentEdges("B").size() == 1);
 }
 
-TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
-    ifstream file("tests/connected_graph.tsv");
-    Graph graph(file);
-    // verify that everything is adjacent to center vertex
-    vector<string> others = {"A", "B", "C", "D", "F", "G"};
-    for (auto label : others) {
-        REQUIRE(graph.areAdjacent("E", label));
-    }
-    auto i = graph.incidentEdges("E");
-    vector<string> destinations;
-    for (Edge* e : i) {
-        REQUIRE((e->source) == "E");
-        destinations.push_back((e->destination));
-    }
-    for (auto label: others) {
-        REQUIRE(std::count(destinations.begin(), destinations.end(), label) == 1);
-    }
-    // check (some of) the outer vertexes
-    REQUIRE(graph.areAdjacent("F", "A"));
-    REQUIRE(graph.areAdjacent("G", "C"));
-    REQUIRE(!graph.areAdjacent("A", "C")); 
-    REQUIRE(!graph.areAdjacent("D", "C"));
-
-    REQUIRE(graph.incidentEdges("C").size() == 1);
-    REQUIRE(graph.incidentEdges("B").size() == 1);
-}
-
 TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGraph][adjacencyMatrix]") {
     int size = 7;
     ifstream file("tests/connected_graph.tsv");
@@ -269,11 +242,25 @@ TEST_CASE("shortest path of length 1", "[shortestPath]") {
     REQUIRE(Alg::shortest_path(graph, "E", "G") == expectedPath);
 }
 
+TEST_CASE("invalid paths", "[shortestPath]") {
+    ifstream file("tests/disconnected_graph.tsv");
+    Graph graph(file);
 
-haha
+    vector<Edge> disconnected_path = Alg::shortest_path(graph, "A", "F");
+    REQUIRE(disconnected_path.size() == 0);
 
+    vector<Edge> same_start_end = Alg::shortest_path(graph, "H", "H");
+    REQUIRE(same_start_end.size() == 0);
 
-merge conflicts go brrrrrr
+    vector<Edge> no_path = Alg::shortest_path(graph, "C", "B");
+    REQUIRE(no_path.size() == 0);
+}
 
- gyrufeskdnjcx ,mpefwhiDKNS:CXZ ,GREFLSBDJVCX M
- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+TEST_CASE("non-zero weighted path", "[shortestPath]") {
+    ifstream file("tests/complex_graph_weights.tsv");
+    Graph graph(file, true);
+
+    vector<Edge> expected = {Edge("A", "E", 1), Edge("E", "I", 0.5), Edge("I", "K", 0.5), Edge("K", "L", 1)};
+    vector<Edge> actual = Alg::shortest_path(graph, "A", "L");
+    REQUIRE(actual == expected);
+}
