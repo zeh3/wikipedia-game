@@ -3,6 +3,8 @@
 #include "../graph.h"
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <iterator>
 #include "../algorithms.hpp"
 
 using std::string;
@@ -18,6 +20,8 @@ typedef std::string Vertex;
 * the graph for the following test cases looks like this:
 * A --> B --> C
 */
+
+
 
 Graph createSimpleGraph() {
     Graph graph;
@@ -38,6 +42,20 @@ Graph createSimpleGraph() {
 int transformCoordinates(int x, int y, int size) {
     return size * y + x;
 }
+
+bool tolerable(double expected, double actual) {
+    return std::fabs(expected - actual) < FLT_EPSILON;
+}
+
+bool pr_comparison(vector<double> expected, vector<double> actual) {
+    if(expected.size() != actual.size()) return false;
+    for(auto it1 = expected.begin(), it2 = actual.begin(); it1 != expected.end() && it2 != actual.end(); it1++, it2++) {
+        if(!tolerable(*it1, *it2)) return false;
+    }
+    return true;
+}
+
+
 
 TEST_CASE("simple graph insert vertices", "[defaultConstructor][insertVertex][vertexList][simpleGraph]") {
     Graph graph = createSimpleGraph();
@@ -112,38 +130,6 @@ TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][ve
     for (Vertex label : actualLabels) {
         REQUIRE(std::count(v.begin(), v.end(), label) == 1);
     }
-}
-
-TEST_CASE("hey"){
-    //hey Lou
-    REQUIRE(true);
-}
-
-TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
-    ifstream file("tests/connected_graph.tsv");
-    Graph graph(file);
-    // verify that everything is adjacent to center vertex
-    vector<string> others = {"A", "B", "C", "D", "F", "G"};
-    for (auto label : others) {
-        REQUIRE(graph.areAdjacent("E", label));
-    }
-    auto i = graph.incidentEdges("E");
-    vector<string> destinations;
-    for (Edge* e : i) {
-        REQUIRE((e->source) == "E");
-        destinations.push_back((e->destination));
-    }
-    for (auto label: others) {
-        REQUIRE(std::count(destinations.begin(), destinations.end(), label) == 1);
-    }
-    // check (some of) the outer vertexes
-    REQUIRE(graph.areAdjacent("F", "A"));
-    REQUIRE(graph.areAdjacent("G", "C"));
-    REQUIRE(!graph.areAdjacent("A", "C")); 
-    REQUIRE(!graph.areAdjacent("D", "C"));
-
-    REQUIRE(graph.incidentEdges("C").size() == 1);
-    REQUIRE(graph.incidentEdges("B").size() == 1);
 }
 
 TEST_CASE("connected graph adjacencies correct", "[incidentEdges][areAdjacent][ifstreamConstructor][connectedGraph]") {
@@ -269,11 +255,17 @@ TEST_CASE("shortest path of length 1", "[shortestPath]") {
     REQUIRE(Alg::shortest_path(graph, "E", "G") == expectedPath);
 }
 
+TEST_CASE("Connected graph PageRank", "[pagerank]") {
+    ifstream file("tests/connected_graph.tsv");
+    Graph graph(file);
 
-haha
+    vector<Vertex> expected_verts = {"A", "B", "C", "D", "E", "F", "G"};
+    vector<double> expected_scores = {0.16309524, 0.16309524, 0.16309524, 0.16309524, 0.16309524, 0.16309524,
+ 0.02142857};
 
+    auto results = Alg::pagerank(graph);
+    vector<double> actual_scores;
+    std::transform(results.begin(), results.end(), std::back_inserter(actual_scores), [](auto pair) { return pair.second; });
 
-merge conflicts go brrrrrr
-
- gyrufeskdnjcx ,mpefwhiDKNS:CXZ ,GREFLSBDJVCX M
- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    REQUIRE(pr_comparison(actual_scores, expected_scores) == true);
+}
