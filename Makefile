@@ -15,7 +15,7 @@ all : $(EXE)
 $(EXE) : output_msg $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(EXE) 
 
-main.o : main.cpp algorithms.hpp outputs
+main.o : main.cpp algorithms.hpp mainHelper.hpp outputs
 	$(CXX) $(CXXFLAGS) main.cpp 
 	
 outputs:
