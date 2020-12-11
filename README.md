@@ -65,7 +65,7 @@ There are 4 main commands that can be run after building the main executible fro
 ./main
 ./main dijkstras [file] [source] [dest]
 ./main pagerank [file] [top]
-./main bfs [file]
+./main bfs [file] [start]
 ```
 The command `./main` will default to running all 3 algorithms with the provided defaults to display the full program's functionalities and takes no arguments.
 
@@ -73,7 +73,7 @@ The command `./main dijkstras [file] [source] [dest]` will run the shortest-path
 
 The command `./main pagerank [file] [top]` will run the Pagerank algorithm given the required arguments in order of `[file]` which is the .tsv dataset, and `[top]` which is an integer n that implies that the program should return the top n-articles that have the highest probability of being visited from the given file.
 
-The command `./main bfs [file]` will run the Graph Breadth-First Search algorithm given the required argument of `[file]` which is the .tsv dataset. This returns a full traversal of the provided dataset as a graph as well as cross-edges for the graph.
+The command `./main bfs [file] [start]` will run the Graph Breadth-First Search algorithm given the required argument of `[file]` which is the .tsv dataset and `[start]` which is the starting article of vertex for the BFS traversal. This returns a full traversal of the provided dataset/graph with the path described by the vertices/articles traversed.
 
 * Note: Ensure that the arguments for the commands are supplied in order with correct data types and also that the path to the file that you are passing in is correct and relative to your current working directory. If there are any problems (incorrect input), the program will terminate and not run.
 
