@@ -258,33 +258,4 @@ TEST_CASE("shortest path of length 1", "[shortestPath]") {
 
     vector<Edge> expectedPath = {Edge("E", "G", 1)};
     REQUIRE(Alg::shortest_path(graph, "E", "G") == expectedPath);
-    REQUIRE(mat[AIndex][BIndex] == 1);
-    REQUIRE(mat[BIndex][CIndex] == 1);
-    //diaganols
-    REQUIRE(mat[AIndex][AIndex] == 0);
-    REQUIRE(mat[BIndex][BIndex] == 0);
-    REQUIRE(mat[CIndex][CIndex] == 0);
-    //reversed edges
-    REQUIRE(mat[BIndex][AIndex] == 0);
-    REQUIRE(mat[CIndex][BIndex] == 0);
-    //everything else lol
-    REQUIRE(mat[AIndex][CIndex] == 0);
-    REQUIRE(mat[CIndex][AIndex] == 0);
-}
-
-/*
-* The graph for these test cases can be found in connected_graph.JPG
-*/
-
-TEST_CASE("vertexList for connected graph is correct", "[ifstreamConstructor][vertexList][connectedGraph]") {
-    ifstream file("connected_graph.JPG");
-    Graph graph(file);
-    auto v = graph.vertexList;
-    vector<string> actualLabels = {"A", "B", "C", "D", "E", "F", "G"};
-
-    REQUIRE(v.size() == actualLabels.size());
-    
-    for (Vertex label : actualLabels) {
-        REQUIRE(std::count(v.begin(), v.end(), label) == 1);
-    }
 }
