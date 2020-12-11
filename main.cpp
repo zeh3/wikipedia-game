@@ -36,8 +36,6 @@ int main(int argc, char *argv[]) {
             successful = false;
             std::cout << "Sorry, you have entered an invalid argument sequence! Please look at \'How to Build\' section on Github to learn more!\n";
         }
-
-
     }
 
     if (successful)

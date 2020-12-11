@@ -19,12 +19,18 @@ class Graph {
         struct Edge {
             Vertex source;
             Vertex destination;
+            double weight = 1;
             Edge(){};
             Edge(Vertex setSrc, Vertex setDest) : source(setSrc), destination(setDest){};
+            Edge(Vertex setSrc, Vertex setDest, double setWeight) : source(setSrc), destination(setDest), weight(setWeight) {};
+            bool operator==(const Edge& other) const
+            {
+                return (source == other.source) && (destination == other.destination) && (weight == other.weight);
+            }
         };
         
-        Graph(){}; // Default Constructor for Test?
-        Graph(std::ifstream& fileStream);        
+        Graph(){};
+        Graph(std::ifstream& fileStream, bool weighted = false);        
         Graph(const Graph &other);
         ~Graph();
 
@@ -41,7 +47,7 @@ class Graph {
         void insertVertex(Vertex v);
         void insertEdge(Vertex v1, Vertex v2);
 
-        std::vector<Edge*> incidentEdges(Vertex v);
+        std::vector<Edge*> incidentEdges(Vertex v) const;
         bool areAdjacent(Vertex v1, Vertex v2);
 
         std::unordered_map<Vertex, std::vector<Edge *>> adjacencyList;
