@@ -97,7 +97,6 @@ namespace Alg {
             std::vector<Edge * > adjacentEdges = graph.incidentEdges(current);
 
             for (unsigned i = 0; i < adjacentEdges.size(); i++) {
-                std::cout << adjacentEdges[i]->source << " " << adjacentEdges[i]->destination << std::endl;
 
                 if (vertexTracker.find(adjacentEdges[i]->destination) == vertexTracker.end()) {
                     
