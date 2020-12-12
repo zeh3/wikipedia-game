@@ -6,7 +6,7 @@
 * [Documentation](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#documentation)
 * [Installation](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#installation)
 * [Features](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#features)
-* [How to Build](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#how-to-build)
+* [How to Build (with execution examples)](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#how-to-build)
 * [Testing](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#testing)
 * [Project Structure](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#project-structure)
 
@@ -70,7 +70,7 @@ Three main features are accessible within the project with a bit of customizabil
 
 </details>
 
-## How to Build
+## How to Build (with execution examples)
 <details>
  <summary> <strong>Click to Expand</strong></summary>
 
