@@ -22,10 +22,13 @@ using std::unordered_map;
 namespace ublas = boost::numeric::ublas;
 typedef std::string Vertex;
 
+/**
+ * Namespace containing our three algorithms: Dijkstra's, BFS, & PageRank. Utilizes our graph implementation.
+ */ 
 namespace Alg {
+
     /**
-     * 
-     * 
+     * DIJKSTRA'S SHORTEST PATH ALGORITHM
      **/
     vector<Edge> shortest_path(const Graph& graph, Vertex start, Vertex end) {
         auto comparison = [](pair<Vertex, double> lhs, pair<Vertex, double> rhs) { return lhs.second > rhs.second; };
@@ -72,7 +75,7 @@ namespace Alg {
     }
     
     /**
-     * 
+     * BREADTH-FIRST SEARCH ALGORITHM
      **/
     std::vector<Vertex> bfs(Graph graph, Vertex start) {
         std::unordered_map<Vertex, int> vertexTracker;
@@ -122,7 +125,7 @@ namespace Alg {
     }
 
     /**
-     * PageRank algorithm
+     * PAGERANK ALGORITHM
      * Based on CS357 implementation (https://courses.grainger.illinois.edu/cs357/fa2020/assets/lectures/complete-slides/13-Markov-Chains.pdf) 
      */
     std::list<std::pair<Vertex, double>> pagerank(const Graph& graph,  double alpha=0.85, int iterations=1000, double tolerance=1e-7) {

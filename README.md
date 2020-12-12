@@ -1,7 +1,8 @@
 # aehasan2-zeh3-noahrr2-mathewf2
 # Final Project
+
+## [Video Presentation of Project](https://www.youtube.com/watch?v=3Sus8AfT3J8&feature=emb_logo)
 ## Table of Contents
-* [Video](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#Video)
 * [Documentation](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#documentation)
 * [Installation](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#installation)
 * [Features](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#features)
@@ -9,14 +10,6 @@
 * [Testing](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#testing)
 * [Project Structure](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#project-structure)
 
-
-## Video
-<details>
- <summary> <strong>Click to Expand</strong></summary>
- https://www.youtube.com/watch?v=3Sus8AfT3J8&feature=emb_logo
-</details>
-
- 
 ## Documentation
 <details>
  <summary> <strong>Click to Expand</strong></summary>

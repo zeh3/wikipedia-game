@@ -17,6 +17,8 @@ using Edge = Graph::Edge;
 
 typedef std::string Vertex;
 
+/* Helper functions used to testing purposes & building graphs */
+
 /*
 * the graph for the following test cases looks like this:
 * A --> B --> C
@@ -36,6 +38,12 @@ Graph createSimpleGraph() {
     return graph;
 }
 
+/**
+ * A -> B -> D
+ * | /
+ * v
+ * C    E -> F -> G -> H
+ */ 
 Graph createBasicDisconnectedGraph() {
     Graph graph;
 
@@ -62,6 +70,12 @@ Graph createBasicDisconnectedGraph() {
     return graph;
 }
 
+/**
+ * A -> B -> C -> D
+ *                |
+ *                v
+ * H <- G <- F <- E
+ */ 
 Graph createMediumCircleGraph() {
     Graph graph;
     graph.insertVertex("A");
@@ -86,16 +100,16 @@ Graph createMediumCircleGraph() {
     return graph;
 }
 
-
-// for checking adjacency matrix things
-int transformCoordinates(int x, int y, int size) {
-    return size * y + x;
-}
-
+/**
+ * Determining if the difference between two doubles is very minimal, thus the doubles are equivalent
+ */
 bool tolerable(double expected, double actual) {
     return std::fabs(expected - actual) < FLT_EPSILON;
 }
 
+/**
+ * Iterate over the expected scores & actual scores, validating each entry
+ */
 bool pr_comparison(vector<double> expected, vector<double> actual) {
     if(expected.size() != actual.size()) return false;
     for(auto it1 = expected.begin(), it2 = actual.begin(); it1 != expected.end() && it2 != actual.end(); it1++, it2++) {
@@ -104,6 +118,7 @@ bool pr_comparison(vector<double> expected, vector<double> actual) {
     return true;
 }
 
+/* RULE OF 3 TEST CASES */
 TEST_CASE("Equals operator", "[ruleof3]") {
     Graph g1 = createBasicDisconnectedGraph();
     Graph g2 = createBasicDisconnectedGraph();
@@ -126,6 +141,7 @@ TEST_CASE("Assignment operator", "[ruleof3]") {
     REQUIRE(g2 == createSimpleGraph());
 }
 
+/* GRAPH IMPLEMENTATION TEST CASES */
 TEST_CASE("simple graph insert vertices", "[defaultConstructor][insertVertex][vertexList][simpleGraph]") {
     Graph graph = createSimpleGraph();
     vector<Vertex> vertexList = graph.vertexList;
@@ -277,8 +293,7 @@ TEST_CASE("connected graph adjacency matrix", "[ifstreamConstructor][connectedGr
     REQUIRE(actual(E, F) == 0);
 }
 
-// dijkstra's
-
+/* DIJKSTRA'S ALGORITHM TEST CASES */
 TEST_CASE("unweighted graph constructor defaults to 1", "[ifstreamConstructor][adjacencyList][edge]") {
     ifstream file("tests/disconnected_graph.tsv");
     Graph graph(file);
@@ -370,6 +385,8 @@ TEST_CASE("non-zero weighted path in disconnected graph") {
     REQUIRE(actual == expected);
 }
 
+/* PAGERANK TEST CASES */
+/* expected_verts currently unusued */
 TEST_CASE("Connected graph PageRank", "[pagerank]") {
     ifstream file("tests/connected_graph.tsv");
     Graph graph(file);
@@ -415,6 +432,7 @@ TEST_CASE("Complex graph PageRank", "[pagerank]") {
     REQUIRE(pr_comparison(actual_scores, expected_scores) == true);
 }
 
+/* BFS ALGORITHM TEST CASES */
 TEST_CASE("Test Circular BFS Traversal", "[BFS][defaultConstructor][connectedGraph]") {
     Graph graph = createMediumCircleGraph();
     Vertex start = graph.vertexList[0];
