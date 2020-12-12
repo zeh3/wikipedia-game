@@ -9,9 +9,14 @@
 * [Testing](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#testing)
 * [Project Structure](https://github-dev.cs.illinois.edu/cs225-fa20/aehasan2-zeh3-noahrr2-mathewf2#project-structure)
 
-##Video
+
+## Video
 <details>
+ <summary> <strong>Click to Expand</strong></summary>
  https://www.youtube.com/watch?v=3Sus8AfT3J8&feature=emb_logo
+</details>
+
+ 
 ## Documentation
 <details>
  <summary> <strong>Click to Expand</strong></summary>
