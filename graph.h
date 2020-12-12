@@ -72,6 +72,7 @@ class Graph {
          * Inserts a vertex into the graph 
          */
         void insertVertex(Vertex v);
+        
         /**
          * Inserts a edge into the graph 
          */
@@ -81,6 +82,7 @@ class Graph {
          * Returns the list of edges that are *leaving* a given vertex; this was our given implementation choice
          */ 
         std::vector<Edge*> incidentEdges(Vertex v) const;
+
         /**
          * Uses our adjacency matrix to determine if two vertices are adjacent
          */ 
@@ -93,6 +95,7 @@ class Graph {
          * vertexList: a list of all vertices, in order they are added to the adjacencyList
          * vert_to_ind: unordered_map that stores a vertex as the key, and its associated index in vertexList as the value
          */
+
         std::unordered_map<Vertex, std::vector<Edge *>> adjacencyList;
         ublas::matrix<double> adjacencyMatrix;
         std::vector<Vertex> vertexList;
